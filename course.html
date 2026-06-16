@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Course — TobiraIQ</title>
+  <meta name="description" content="TobiraIQ Course"/>
+  <link rel="icon" href="assets/favicon.png"/>
+  <link rel="stylesheet" href="css/main.css"/>
+  <style>
+    .course-hero {
+      padding: 140px 7% 80px;
+      max-width: 1180px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 72px; align-items: start;
+    }
+    .course-breadcrumb {
+      font-size: 13px; color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .course-breadcrumb a { color: var(--pink-glow); }
+    .course-breadcrumb a:hover { text-decoration: underline; }
+
+    .course-title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 700; line-height: 1.05;
+      margin-bottom: 14px;
+    }
+    .course-subtitle {
+      font-size: 18px; color: var(--muted);
+      font-weight: 300; margin-bottom: 28px;
+    }
+    .course-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+
+    .course-meta-row {
+      display: flex; gap: 24px; flex-wrap: wrap;
+      font-size: 13px; color: var(--muted);
+      padding: 20px 0; border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+    }
+    .course-meta-row span { display: flex; align-items: center; gap: 6px; }
+
+    /* Sticky Buy Card */
+    .buy-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 36px 32px;
+      position: sticky; top: 100px;
+    }
+    .buy-price {
+      font-family: var(--font-display);
+      font-size: 48px; font-weight: 700;
+      color: var(--pink-glow); margin-bottom: 6px;
+    }
+    .buy-price-free { color: #4ade80; }
+    .buy-price-note {
+      font-size: 13px; color: var(--muted); margin-bottom: 28px;
+    }
+    .buy-divider {
+      height: 1px; background: var(--border);
+      margin: 24px 0;
+    }
+    .buy-includes {
+      display: flex; flex-direction: column; gap: 10px;
+      margin-bottom: 28px;
+    }
+    .buy-includes li {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px; color: var(--muted-light);
+    }
+    .buy-includes li::before {
+      content: '✓';
+      color: var(--pink-glow); font-weight: 700;
+      flex-shrink: 0;
+    }
+    .buy-buttons { display: flex; flex-direction: column; gap: 10px; }
+    .btn-gumroad { justify-content: center; }
+
+    /* Sections */
+    .course-body { padding: 0 7% 100px; max-width: 1180px; margin: 0 auto; }
+    .course-section { margin-bottom: 64px; }
+    .course-section h2 {
+      font-family: var(--font-display);
+      font-size: 32px; font-weight: 700;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .learn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .learn-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+      font-size: 14px; line-height: 1.5;
+    }
+    .learn-item::before {
+      content: '🚪';
+      flex-shrink: 0; font-size: 16px;
+    }
+
+    .module-list { display: flex; flex-direction: column; gap: 8px; }
+    .module-item {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      transition: all var(--transition);
+    }
+    .module-item:hover { border-color: var(--border-hover); transform: translateX(4px); }
+    .module-week {
+      font-size: 11px; font-weight: 700;
+      color: var(--pink-glow); letter-spacing: 1px;
+      text-transform: uppercase; min-width: 80px;
+    }
+    .module-topic { font-size: 15px; flex: 1; }
+    .module-lessons { font-size: 12px; color: var(--muted); }
+
+    /* Phases */
+    .phases-list { display: flex; flex-direction: column; gap: 8px; }
+    .phase-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color var(--transition);
+    }
+    .phase-item:hover { border-color: var(--border-hover); }
+    .phase-item.open { border-color: var(--border-hover); }
+    .phase-header {
+      display: flex; align-items: center; gap: 16px;
+      padding: 20px 24px;
+      cursor: none;
+    }
+    .phase-number {
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 13px; font-weight: 800;
+      border: 2px solid; flex-shrink: 0;
+    }
+    .phase-meta { flex: 1; }
+    .phase-name {
+      font-size: 16px; font-weight: 600; margin-bottom: 3px;
+    }
+    .phase-days { font-size: 12px; color: var(--muted); }
+    .phase-chevron {
+      font-size: 18px; color: var(--muted);
+      transition: transform 0.3s;
+    }
+    .phase-item.open .phase-chevron { transform: rotate(180deg); }
+    .phase-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+      padding: 0 24px;
+    }
+    .phase-item.open .phase-body { max-height: 600px; padding: 0 24px 24px; }
+    .phase-overview {
+      color: var(--muted); font-size: 14px; line-height: 1.8;
+      margin-bottom: 16px;
+    }
+    .phase-deliverable {
+      background: rgba(0,198,167,0.06);
+      border: 1px solid rgba(0,198,167,0.2);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      font-size: 13px; color: #c4d4d0;
+      line-height: 1.7; margin-bottom: 16px;
+    }
+    .phase-del-label {
+      display: block; font-size: 10px; font-weight: 700;
+      color: #00C6A7; letter-spacing: 1.5px;
+      text-transform: uppercase; margin-bottom: 6px;
+    }
+    .phase-skills { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    /* FAQ */
+    .faq-list { display: flex; flex-direction: column; gap: 4px; }
+    .faq-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+    .faq-question {
+      width: 100%; background: none; border: none;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 24px;
+      color: var(--white); font-size: 15px; font-weight: 500;
+      text-align: left; transition: all var(--transition);
+    }
+    .faq-question:hover { color: var(--pink-glow); }
+    .faq-chevron { font-size: 18px; transition: transform 0.3s; }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    .faq-answer {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+      padding: 0 24px;
+      color: var(--muted); font-size: 14px; line-height: 1.8;
+    }
+    .faq-item.open .faq-answer { max-height: 200px; padding: 0 24px 20px; }
+
+    @media (max-width: 900px) {
+      .course-hero { grid-template-columns: 1fr; gap: 40px; }
+      .buy-card { position: static; }
+      .learn-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+  <canvas id="particles-canvas"></canvas>
+  <div id="scroll-progress"></div>
+
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+      <svg width="34" height="34" viewBox="0 0 38 38" fill="none">
+        <rect x="3" y="5" width="32" height="7" rx="3.5" fill="#F9A8D4"/>
+        <rect x="7" y="12" width="24" height="5" rx="2.5" fill="#F9A8D4" opacity="0.55"/>
+        <rect x="8"  y="17" width="8"  height="18" rx="4" fill="#F9A8D4"/>
+        <rect x="22" y="17" width="8"  height="18" rx="4" fill="#F9A8D4"/>
+        <rect x="9"  y="26" width="20" height="3"  rx="1.5" fill="#F9A8D4" opacity="0.4"/>
+        <circle cx="12" cy="17" r="2.5" fill="#F9A8D4" opacity="0.6"/>
+        <circle cx="26" cy="17" r="2.5" fill="#F9A8D4" opacity="0.6"/>
+      </svg>
+      <span class="nav-logo-text">Tobira<em>IQ</em></span>
+    </a>
+    <ul class="nav-menu" id="nav-menu"></ul>
+    <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+
+  <main class="page" id="course-page">
+    <!-- Rendered by JS below -->
+  </main>
+
+  <footer id="footer"></footer>
+  <div class="toast" id="toast"></div>
+
+  <script src="data/categories.js"></script>
+  <script src="data/courses.js"></script>
+  <script src="data/resources.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const params   = new URLSearchParams(window.location.search);
+    const courseId = params.get('id');
+    const course   = COURSES.find(c => c.id === courseId);
+    const page     = document.getElementById('course-page');
+
+    if (!course) {
+      page.innerHTML = `
+        <div style="text-align:center; padding:200px 7%;">
+          <h2 style="font-family:var(--font-display); font-size:48px;">Course not found</h2>
+          <p style="color:var(--muted); margin:16px 0 32px;">This course may have moved or doesn't exist.</p>
+          <a href="courses.html" class="btn btn-primary">Browse All Courses</a>
+        </div>`;
+      return;
+    }
+
+    // Update page title + meta
+    document.title = `${course.title} — TobiraIQ`;
+
+    // ── Price display ─────────────────────────────────
+    const priceClass = '';
+    const priceText  = course.price === 'Free' ? 'Phase 1 Free' : course.price;
+
+    page.innerHTML = `
+      <!-- Hero -->
+      <div class="course-hero">
+        <div>
+          <div class="course-breadcrumb reveal">
+            <a href="index.html">Home</a> / <a href="courses.html">Courses</a> / ${course.title}
+          </div>
+          <div class="course-badges reveal">${getBadge(course.badge)}</div>
+          <h1 class="course-title reveal">${course.title}</h1>
+          <p class="course-subtitle reveal">${course.subtitle}</p>
+          <div class="course-meta-row reveal">
+            <span>📅 ${course.duration}</span>
+            <span>📶 ${course.level}</span>
+            <span>📚 ${course.phases ? course.phases.length : 0} Phases</span>
+            ${course.availableDays ? `<span style="color:#4ade80;">✅ Days 1–${course.availableDays} Available Now</span>` : ''}
+          </div>
+          <p style="color:var(--muted); font-size:15px; line-height:1.8;" class="reveal">${course.description}</p>
+        </div>
+        <!-- Buy Card -->
+        <div class="buy-card reveal">
+          <div class="buy-price ${priceClass}">${priceText}</div>
+          <div class="buy-price-note">Phase 1 is free. Full course access via Gumroad.</div>
+          <ul class="buy-includes">
+            <li>${course.phases ? course.phases.length : course.modules.length} structured phases</li>
+            <li>${course.whatYouLearn.length} skills covered</li>
+            <li>Free updates forever</li>
+          </ul>
+          <div class="buy-divider"></div>
+          <div class="buy-buttons">
+            <a href="${course.gumroadLink}" target="_blank" class="btn btn-primary btn-gumroad">
+              Get on Gumroad 🛒
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div class="course-body">
+
+        <!-- What You'll Learn -->
+        <div class="course-section reveal">
+          <h2>What You'll Learn</h2>
+          <div class="learn-grid">
+            ${course.whatYouLearn.map(item => `<div class="learn-item">${item}</div>`).join('')}
+          </div>
+        </div>
+
+        <!-- Phase Overview -->
+        <div class="course-section reveal">
+          <h2>Your 120-Day Journey</h2>
+          <p style="color:var(--muted); font-size:14px; margin-bottom:28px; line-height:1.7;">
+            The course is structured into 5 clear phases. Each phase builds on the previous one.
+            The detailed daily plan is shared with enrolled students — here is your complete overview.
+          </p>
+          <div class="phases-list">
+            ${course.phases.map((p, i) => `
+              <div class="phase-item" onclick="togglePhase(${i})" id="phase-${i}">
+                <div class="phase-header">
+                  <div class="phase-number" style="background: ${p.color}22; border-color: ${p.color}44; color: ${p.color}">
+                    P${p.number}
+                  </div>
+                  <div class="phase-meta">
+                    <div class="phase-name">${p.name}</div>
+                    <div class="phase-days">${p.days} · ${p.duration}</div>
+                  </div>
+                  <div class="phase-chevron">▾</div>
+                </div>
+                <div class="phase-body" id="phase-body-${i}">
+                  <p class="phase-overview">${p.overview}</p>
+                  <div class="phase-deliverable">
+                    <span class="phase-del-label">✅ Phase Outcome</span>
+                    ${p.deliverable}
+                  </div>
+                  <div class="phase-skills">
+                    ${p.skills.map(s => `<span class="tag">${s}</span>`).join('')}
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+          <p style="
+            color:var(--muted); font-size:13px;
+            text-align:center; margin-top:24px;
+            padding:16px; background:var(--card);
+            border:1px solid var(--border); border-radius:var(--radius-sm);
+            line-height:1.7;
+          ">
+            🔒 The full day-by-day plan (all 120 sessions) is shared exclusively with enrolled students.
+          </p>
+        </div>
+
+        <!-- FAQ -->
+        <div class="course-section reveal">
+          <h2>Frequently Asked Questions</h2>
+          <div class="faq-list">
+            ${course.faqs.map((f, i) => `
+              <div class="faq-item" id="faq-${i}">
+                <button class="faq-question" onclick="toggleFAQ(${i})">
+                  ${f.q}
+                  <span class="faq-chevron">▾</span>
+                </button>
+                <div class="faq-answer">${f.a}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+      </div>
+    `;
+
+    // Re-run reveal observer for newly rendered elements
+    document.querySelectorAll('.reveal').forEach(el => {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+      }, { threshold: 0.08 });
+      obs.observe(el);
+    });
+  });
+
+  // ── Phase Toggle ──────────────────────────────────────
+  function togglePhase(i) {
+    const item = document.getElementById(`phase-${i}`);
+    item.classList.toggle('open');
+  }
+
+  // ── FAQ Toggle ────────────────────────────────────────
+  function toggleFAQ(i) {
+    const item = document.getElementById(`faq-${i}`);
+    item.classList.toggle('open');
+  }
+  </script>
+</body>
+</html>

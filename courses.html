@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Courses — TobiraIQ</title>
+  <link rel="stylesheet" href="css/main.css"/>
+  <style>
+    .courses-hero { padding: 140px 7% 40px; text-align: center; position: relative; z-index: 1; }
+    .filter-bar { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin: 32px 0 0; }
+    .filter-btn {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 100px; padding: 10px 22px;
+      font-size: 13px; font-weight: 500; color: var(--muted);
+      cursor: pointer; transition: all 0.3s; font-family: inherit;
+    }
+    .filter-btn:hover, .filter-btn.active { background: #831843; border-color: #831843; color: #fff; }
+    .courses-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px; max-width: 1180px; margin: 40px auto 0; padding: 0 7% 100px;
+    }
+    .c-card {
+      background: #130010; border: 1px solid rgba(131,24,67,0.2);
+      border-radius: 16px; padding: 32px;
+      display: flex; flex-direction: column; gap: 14px;
+      text-decoration: none; color: inherit; transition: all 0.3s;
+    }
+    .c-card:hover { border-color: rgba(249,168,212,0.4); transform: translateY(-6px); box-shadow: 0 12px 40px rgba(131,24,67,0.25); }
+    .c-top { display: flex; align-items: flex-start; justify-content: space-between; }
+    .c-price { font-size: 20px; font-weight: 700; color: #F9A8D4; font-family: Georgia, serif; }
+    .c-title { font-size: 22px; font-weight: 600; line-height: 1.25; font-family: Georgia, serif; color: #FFF5F9; }
+    .c-desc { color: #a07080; font-size: 14px; font-weight: 300; line-height: 1.7; flex: 1; }
+    .c-meta { display: flex; gap: 16px; font-size: 12px; color: #a07080; border-top: 1px solid rgba(131,24,67,0.2); padding-top: 14px; }
+    .c-cta { color: #F9A8D4; font-size: 14px; font-weight: 500; margin-top: 4px; }
+    .c-badge {
+      display: inline-flex; padding: 4px 12px; border-radius: 100px;
+      font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      background: rgba(131,24,67,0.2); color: #F9A8D4; border: 1px solid rgba(131,24,67,0.3);
+    }
+    .no-results { grid-column: 1/-1; text-align: center; padding: 80px 20px; color: #a07080; }
+    .no-results h3 { font-family: Georgia, serif; font-size: 28px; color: #FFF5F9; margin: 16px 0 12px; }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+  <canvas id="particles-canvas"></canvas>
+  <div id="scroll-progress"></div>
+
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+      <svg width="34" height="34" viewBox="0 0 38 38" fill="none">
+        <rect x="3" y="5" width="32" height="7" rx="3.5" fill="#F9A8D4"/>
+        <rect x="7" y="12" width="24" height="5" rx="2.5" fill="#F9A8D4" opacity="0.55"/>
+        <rect x="8" y="17" width="8" height="18" rx="4" fill="#F9A8D4"/>
+        <rect x="22" y="17" width="8" height="18" rx="4" fill="#F9A8D4"/>
+        <rect x="9" y="26" width="20" height="3" rx="1.5" fill="#F9A8D4" opacity="0.4"/>
+        <circle cx="12" cy="17" r="2.5" fill="#F9A8D4" opacity="0.6"/>
+        <circle cx="26" cy="17" r="2.5" fill="#F9A8D4" opacity="0.6"/>
+      </svg>
+      <span class="nav-logo-text">Tobira<em>IQ</em></span>
+    </a>
+    <ul class="nav-menu" id="nav-menu"></ul>
+    <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+
+  <main class="page">
+    <div class="courses-hero">
+      <span class="section-eyebrow">All Courses</span>
+      <h1 class="section-title">Find your next course.</h1>
+      <p class="section-subtitle" style="margin:0 auto;">Structured courses built for real growth.</p>
+      <div class="filter-bar" id="filter-bar"></div>
+    </div>
+    <div class="courses-grid" id="courses-grid"></div>
+  </main>
+
+  <footer id="footer"></footer>
+  <div class="toast" id="toast"></div>
+
+  <script src="data/categories.js"></script>
+  <script src="data/courses.js"></script>
+  <script src="data/resources.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // ── Build filters ───────────────────────────────
+      var filterBar = document.getElementById('filter-bar');
+      var activeCat = (new URLSearchParams(window.location.search)).get('cat') || 'all';
+
+      var btns = '<button class="filter-btn ' + (activeCat==='all'?'active':'') + '" onclick="filter(\'all\',this)">🚪 All Courses</button>';
+      for (var i = 0; i < CATEGORIES.length; i++) {
+        if (CATEGORIES[i].active) {
+          var isActive = CATEGORIES[i].id === activeCat ? 'active' : '';
+          btns += '<button class="filter-btn ' + isActive + '" onclick="filter(\'' + CATEGORIES[i].id + '\',this)">' +
+            CATEGORIES[i].icon + ' ' + CATEGORIES[i].label + '</button>';
+        }
+      }
+      filterBar.innerHTML = btns;
+
+      // ── Render courses ──────────────────────────────
+      showCourses(activeCat);
+    });
+
+    function filter(catId, btn) {
+      var all = document.querySelectorAll('.filter-btn');
+      for (var i = 0; i < all.length; i++) all[i].classList.remove('active');
+      btn.classList.add('active');
+      showCourses(catId);
+    }
+
+    function showCourses(catId) {
+      var grid = document.getElementById('courses-grid');
+      var list = [];
+      for (var i = 0; i < COURSES.length; i++) {
+        if (catId === 'all' || COURSES[i].category === catId) list.push(COURSES[i]);
+      }
+
+      if (list.length === 0) {
+        grid.innerHTML =
+          '<div class="no-results">' +
+          '<div style="font-size:48px">🚀</div>' +
+          '<h3>No courses here yet!</h3>' +
+          '<p>We are working on it. Subscribe to get notified.</p>' +
+          '<br><a href="https://tobiraiq.beehiiv.com" target="_blank" class="btn btn-primary">Notify Me →</a>' +
+          '</div>';
+        return;
+      }
+
+      var html = '';
+      for (var k = 0; k < list.length; k++) {
+        var c = list[k];
+        var desc = c.description.length > 110 ? c.description.substring(0,110) + '…' : c.description;
+        var badge = c.badge ? '<span class="c-badge">' + c.badge.toUpperCase() + '</span>' : '';
+        html +=
+          '<a href="course.html?id=' + c.id + '" class="c-card">' +
+            '<div class="c-top"><div>' + badge + '</div><div class="c-price">' + c.price + '</div></div>' +
+            '<div class="c-title">' + c.title + '</div>' +
+            '<div class="c-desc">' + desc + '</div>' +
+            '<div class="c-meta"><span>📅 ' + c.duration + '</span><span>📶 ' + c.level + '</span></div>' +
+            '<div class="c-cta">View Course →</div>' +
+          '</a>';
+      }
+      grid.innerHTML = html;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Free Resources — TobiraIQ</title>
+  <meta name="description" content="Download free study resources from TobiraIQ — SQL guides, Python cheat sheets, roadmaps and more."/>
+  <link rel="icon" href="assets/favicon.png"/>
+  <link rel="stylesheet" href="css/main.css"/>
+  <style>
+    .page-hero {
+      padding: 140px 7% 60px;
+      text-align: center; position: relative; z-index: 1;
+    }
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: 1180px; margin: 0 auto;
+      padding: 0 7% 100px;
+    }
+    .resource-card {
+      padding: 32px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .resource-card h3 {
+      font-family: var(--font-display);
+      font-size: 22px; font-weight: 600; line-height: 1.25;
+    }
+    .resource-card p {
+      color: var(--muted); font-size: 14px; flex: 1; line-height: 1.7;
+    }
+    .resource-meta {
+      font-size: 12px; color: var(--muted);
+      display: flex; gap: 16px;
+      border-top: 1px solid var(--border); padding-top: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+  <canvas id="particles-canvas"></canvas>
+  <div id="scroll-progress"></div>
+
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+      <svg width="34" height="34" viewBox="0 0 38 38" fill="none">
+        <rect x="3" y="5" width="32" height="7" rx="3.5" fill="#F9A8D4"/>
+        <rect x="7" y="12" width="24" height="5" rx="2.5" fill="#F9A8D4" opacity="0.55"/>
+        <rect x="8"  y="17" width="8"  height="18" rx="4" fill="#F9A8D4"/>
+        <rect x="22" y="17" width="8"  height="18" rx="4" fill="#F9A8D4"/>
+        <rect x="9"  y="26" width="20" height="3"  rx="1.5" fill="#F9A8D4" opacity="0.4"/>
+        <circle cx="12" cy="17" r="2.5" fill="#F9A8D4" opacity="0.6"/>
+        <circle cx="26" cy="17" r="2.5" fill="#F9A8D4" opacity="0.6"/>
+      </svg>
+      <span class="nav-logo-text">Tobira<em>IQ</em></span>
+    </a>
+    <ul class="nav-menu" id="nav-menu"></ul>
+    <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+
+  <main class="page">
+    <div class="page-hero">
+      <span class="section-eyebrow reveal">Free Resources</span>
+      <h1 class="section-title reveal">Download. Learn. Grow.</h1>
+      <p class="section-subtitle reveal" style="margin:0 auto;">
+        High quality guides, cheat sheets and roadmaps — completely free. No sign-up required.
+      </p>
+    </div>
+    <div class="resources-grid" id="resources-grid"></div>
+  </main>
+
+  <footer id="footer"></footer>
+  <div class="toast" id="toast"></div>
+
+  <script src="data/categories.js"></script>
+  <script src="data/courses.js"></script>
+  <script src="data/resources.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.getElementById('resources-grid');
+    if (!grid || typeof RESOURCES === 'undefined') return;
+
+    if (!RESOURCES.length) {
+      grid.innerHTML = `
+        <div style="
+          grid-column: 1/-1;
+          text-align: center;
+          padding: 80px 24px;
+          background: var(--card);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-md);
+        ">
+          <div style="font-size:48px; margin-bottom:16px;">📚</div>
+          <h3 style="font-family:var(--font-display); font-size:28px; margin-bottom:12px;">
+            Free resources coming soon!
+          </h3>
+          <p style="color:var(--muted); font-size:15px; max-width:400px; margin:0 auto 32px; line-height:1.7;">
+            We are preparing high quality free guides, cheat sheets and roadmaps.
+            Subscribe to be the first to get them.
+          </p>
+          <a href="https://tobiraiq.beehiiv.com" target="_blank" class="btn btn-primary btn-lg">
+            Join Free Newsletter →
+          </a>
+        </div>
+      `;
+      return;
+    }
+    grid.innerHTML = RESOURCES.map(r => `
+      <a href="${r.downloadLink}" target="_blank" class="card resource-card reveal">
+        ${getBadge(r.badge)}
+        <h3>${r.title}</h3>
+        <p>${r.description}</p>
+        <div class="resource-meta">
+          <span>📄 ${r.type}</span>
+          ${r.pages ? `<span>📖 ${r.pages} pages</span>` : ''}
+        </div>
+        <div class="btn btn-ghost">Download Free →</div>
+      </a>
+    `).join('');
+
+    document.querySelectorAll('.reveal').forEach(el => {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+      }, { threshold: 0.08 });
+      obs.observe(el);
+    });
+  });
+  </script>
+</body>
+</html>

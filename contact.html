@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact — TobiraIQ</title>
+  <link rel="icon" href="assets/favicon.png"/>
+  <link rel="stylesheet" href="css/main.css"/>
+  <style>
+    .contact-hero {
+      padding: 140px 7% 80px;
+      text-align: center; position: relative; z-index: 1;
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px; max-width: 900px;
+      margin: 0 auto; padding: 0 7% 100px;
+    }
+    .contact-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 40px 36px;
+      text-align: center; transition: all var(--transition);
+    }
+    .contact-card:hover { border-color: var(--border-hover); transform: translateY(-4px); }
+    .contact-icon { font-size: 48px; margin-bottom: 20px; display: block; }
+    .contact-card h3 {
+      font-family: var(--font-display); font-size: 24px; font-weight: 600; margin-bottom: 10px;
+    }
+    .contact-card p { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 24px; }
+    .social-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
+      gap: 14px; max-width: 900px; margin: 0 auto 100px; padding: 0 7%;
+    }
+    .social-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 24px 20px;
+      text-align: center; transition: all var(--transition);
+      font-size: 14px; font-weight: 500; color: var(--muted);
+    }
+    .social-card:hover {
+      border-color: var(--border-hover); color: var(--pink-glow);
+      transform: translateY(-4px);
+    }
+    .social-card div { font-size: 28px; margin-bottom: 10px; }
+    @media (max-width: 640px) {
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+  <canvas id="particles-canvas"></canvas>
+  <div id="scroll-progress"></div>
+
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+      <svg width="34" height="34" viewBox="0 0 38 38" fill="none">
+        <rect x="3" y="5" width="32" height="7" rx="3.5" fill="#F9A8D4"/>
+        <rect x="7" y="12" width="24" height="5" rx="2.5" fill="#F9A8D4" opacity="0.55"/>
+        <rect x="8"  y="17" width="8"  height="18" rx="4" fill="#F9A8D4"/>
+        <rect x="22" y="17" width="8"  height="18" rx="4" fill="#F9A8D4"/>
+        <rect x="9"  y="26" width="20" height="3"  rx="1.5" fill="#F9A8D4" opacity="0.4"/>
+        <circle cx="12" cy="17" r="2.5" fill="#F9A8D4" opacity="0.6"/>
+        <circle cx="26" cy="17" r="2.5" fill="#F9A8D4" opacity="0.6"/>
+      </svg>
+      <span class="nav-logo-text">Tobira<em>IQ</em></span>
+    </a>
+    <ul class="nav-menu" id="nav-menu"></ul>
+    <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+
+  <main class="page">
+    <div class="contact-hero">
+      <span class="section-eyebrow reveal">Contact</span>
+      <h1 class="section-title reveal">Get in touch.</h1>
+      <p class="section-subtitle reveal" style="margin:0 auto;">Have a question or want to collaborate? Reach out to us — we'd love to hear from you.</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-card reveal">
+        <span class="contact-icon">✉️</span>
+        <h3>Email Us</h3>
+        <p>For course queries, collaborations or general questions — drop us an email.</p>
+        <a href="mailto:tobiraiq@gmail.com" class="btn btn-primary">tobiraiq@gmail.com</a>
+      </div>
+      <div class="contact-card reveal">
+        <span class="contact-icon">📬</span>
+        <h3>Newsletter</h3>
+        <p>Get one practical skill delivered every weekend. Free resources, tips and guides straight to your inbox.</p>
+        <a href="https://tobiraiq.beehiiv.com" target="_blank" class="btn btn-outline">Subscribe Free</a>
+      </div>
+    </div>
+
+    <div style="max-width:900px; margin:0 auto; padding:0 7% 20px;">
+      <span class="section-eyebrow reveal">Follow Us</span>
+      <h2 class="section-title reveal" style="font-size:clamp(28px,4vw,44px);">Connect with TobiraIQ.</h2>
+      <p class="section-subtitle reveal">Follow us on your favourite platform for weekly tips, resources and updates.</p>
+    </div>
+
+    <div class="social-grid" id="social-grid"></div>
+  </main>
+
+  <footer id="footer"></footer>
+  <div class="toast" id="toast"></div>
+
+  <script src="data/categories.js"></script>
+  <script src="data/courses.js"></script>
+  <script src="data/resources.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.getElementById('social-grid');
+    if (!grid || typeof SITE_CONFIG === 'undefined') return;
+    const socials = [
+      { icon: '📸', label: 'Instagram',  sub: '@tobiraiq',        href: SITE_CONFIG.instagram },
+      { icon: '📺', label: 'YouTube',    sub: '@tobiraiq',        href: SITE_CONFIG.youtube   },
+      { icon: '📌', label: 'Pinterest',  sub: 'tobiraiq',         href: SITE_CONFIG.pinterest },
+      { icon: '💼', label: 'LinkedIn',   sub: 'TobiraIQ',         href: SITE_CONFIG.linkedin  },
+      { icon: '👥', label: 'Facebook',   sub: 'Tobira IQ',        href: SITE_CONFIG.facebook  },
+      { icon: '🔗', label: 'Linktree',   sub: 'linktr.ee/tobiraiq', href: SITE_CONFIG.linktree },
+    ];
+    grid.innerHTML = socials.map(s => `
+      <a href="${s.href}" target="_blank" class="social-card reveal">
+        <div>${s.icon}</div>
+        <div style="font-weight:600; color:var(--white); margin-bottom:4px;">${s.label}</div>
+        <div style="font-size:11px; color:var(--muted);">${s.sub}</div>
+      </a>
+    `).join('');
+
+    document.querySelectorAll('.reveal').forEach(el => {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
+      }, { threshold: 0.08 });
+      obs.observe(el);
+    });
+  });
+  </script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About — TobiraIQ</title>
+  <link rel="icon" href="assets/favicon.png"/>
+  <link rel="stylesheet" href="css/main.css"/>
+  <style>
+    .about-hero {
+      padding: 140px 7% 80px;
+      max-width: 1180px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .about-content h1 {
+      font-family: var(--font-display);
+      font-size: clamp(42px, 6vw, 80px);
+      font-weight: 700; line-height: 1.05;
+      margin-bottom: 24px;
+    }
+    .about-content p {
+      color: var(--muted); font-size: 16px; font-weight: 300;
+      line-height: 1.9; margin-bottom: 20px;
+    }
+    .about-quote {
+      font-family: var(--font-display);
+      font-size: 22px; font-style: italic;
+      color: var(--pink-glow); line-height: 1.5; margin-top: 16px;
+    }
+    .about-visual {
+      display: flex; justify-content: center;
+    }
+    .about-visual svg {
+      width: min(320px, 90%);
+      filter: drop-shadow(0 0 60px rgba(249,168,212,0.15));
+    }
+    .mission-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+      gap: 20px; max-width: 1180px; margin: 0 auto;
+    }
+    .mission-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 36px 28px;
+      transition: all var(--transition);
+    }
+    .mission-card:hover { border-color: var(--border-hover); transform: translateY(-4px); }
+    .mission-icon { font-size: 36px; margin-bottom: 16px; }
+    .mission-card h3 {
+      font-family: var(--font-display); font-size: 22px; font-weight: 600; margin-bottom: 10px;
+    }
+    .mission-card p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .future-timeline {
+      max-width: 700px; margin: 0 auto;
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .timeline-item {
+      display: grid; grid-template-columns: 120px 1fr;
+      gap: 24px; align-items: start; position: relative;
+      padding-bottom: 36px;
+    }
+    .timeline-item:not(:last-child)::before {
+      content: ''; position: absolute;
+      left: 54px; top: 36px; bottom: 0;
+      width: 1px; background: var(--border);
+    }
+    .timeline-year {
+      font-family: var(--font-display); font-size: 22px; font-weight: 700;
+      color: var(--pink-glow); text-align: right;
+      padding-top: 4px;
+    }
+    .timeline-content {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 20px 24px;
+    }
+    .timeline-content h3 {
+      font-size: 16px; font-weight: 600; margin-bottom: 6px;
+    }
+    .timeline-content p { color: var(--muted); font-size: 13px; line-height: 1.7; }
+    @media (max-width: 768px) {
+      .about-hero { grid-template-columns: 1fr; gap: 48px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+  <canvas id="particles-canvas"></canvas>
+  <div id="scroll-progress"></div>
+
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+      <svg width="34" height="34" viewBox="0 0 38 38" fill="none">
+        <rect x="3" y="5" width="32" height="7" rx="3.5" fill="#F9A8D4"/>
+        <rect x="7" y="12" width="24" height="5" rx="2.5" fill="#F9A8D4" opacity="0.55"/>
+        <rect x="8"  y="17" width="8"  height="18" rx="4" fill="#F9A8D4"/>
+        <rect x="22" y="17" width="8"  height="18" rx="4" fill="#F9A8D4"/>
+        <rect x="9"  y="26" width="20" height="3"  rx="1.5" fill="#F9A8D4" opacity="0.4"/>
+        <circle cx="12" cy="17" r="2.5" fill="#F9A8D4" opacity="0.6"/>
+        <circle cx="26" cy="17" r="2.5" fill="#F9A8D4" opacity="0.6"/>
+      </svg>
+      <span class="nav-logo-text">Tobira<em>IQ</em></span>
+    </a>
+    <ul class="nav-menu" id="nav-menu"></ul>
+    <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+
+  <main class="page">
+    <!-- About Hero -->
+    <div class="about-hero">
+      <div class="about-content">
+        <span class="section-eyebrow reveal">About TobiraIQ</span>
+        <h1 class="reveal">The door to your learning journey.</h1>
+        <p class="reveal">TobiraIQ was built for every student and professional who deserves access to world-class learning resources — without paying a fortune.</p>
+        <p class="reveal">We believe quality education should be clear, structured and accessible. No fluff, no filler — just content that actually moves the needle for learners at every stage.</p>
+        <p class="about-quote reveal">"Tobira" means door in Japanese. We are your door to smart learning.</p>
+      </div>
+      <div class="about-visual reveal">
+        <svg viewBox="0 0 300 340" fill="none">
+          <defs>
+            <radialGradient id="g2" cx="50%" cy="80%" r="50%">
+              <stop offset="0%" stop-color="#831843" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#831843" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="150" cy="310" rx="110" ry="18" fill="url(#g2)"/>
+          <rect x="20"  y="50"  width="260" height="52" rx="26" fill="#F9A8D4"/>
+          <rect x="46"  y="100" width="208" height="34" rx="17" fill="#F9A8D4" opacity="0.55"/>
+          <rect x="56"  y="132" width="50"  height="170" rx="25" fill="#F9A8D4"/>
+          <rect x="194" y="132" width="50"  height="170" rx="25" fill="#F9A8D4"/>
+          <rect x="62"  y="205" width="176" height="20"  rx="10" fill="#F9A8D4" opacity="0.4"/>
+          <circle cx="81"  cy="134" r="12" fill="#F9A8D4" opacity="0.6"/>
+          <circle cx="219" cy="134" r="12" fill="#F9A8D4" opacity="0.6"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Mission -->
+    <section class="section">
+      <div class="section-inner">
+        <span class="section-eyebrow reveal">Our Mission</span>
+        <h2 class="section-title reveal">What drives TobiraIQ.</h2>
+        <br/>
+        <div class="mission-grid">
+          <div class="mission-card reveal">
+            <div class="mission-icon">🚪</div>
+            <h3>Open Every Door</h3>
+            <p>Every learner deserves a gateway to quality education — regardless of background, location or budget.</p>
+          </div>
+          <div class="mission-card reveal">
+            <div class="mission-icon">🎯</div>
+            <h3>Quality First</h3>
+            <p>We create resources that are premium at first look and valuable on every read. No filler, no fluff.</p>
+          </div>
+          <div class="mission-card reveal">
+            <div class="mission-icon">🌍</div>
+            <h3>Built for Everyone</h3>
+            <p>Content designed for learners worldwide — structured, clear and applicable no matter where you are.</p>
+          </div>
+          <div class="mission-card reveal">
+            <div class="mission-icon">📈</div>
+            <h3>Always Growing</h3>
+            <p>New courses, new subjects and new resources added continuously — so there is always a next step for you.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="footer"></footer>
+  <div class="toast" id="toast"></div>
+
+  <script src="data/categories.js"></script>
+  <script src="data/courses.js"></script>
+  <script src="data/resources.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
