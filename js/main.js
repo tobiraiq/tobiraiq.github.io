@@ -134,8 +134,12 @@ if (cursor && cursorRing) {
     hamburger.addEventListener('click', () => {
       menu.classList.toggle('open');
     });
-    menu.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => menu.classList.remove('open'));
+    // Use event delegation so this works even if links
+    // are rendered later by renderNav()
+    menu.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') {
+        menu.classList.remove('open');
+      }
     });
   }
 })();

@@ -127,9 +127,10 @@
     /* ── Featured Courses ────────────────────────────── */
     .courses-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 360px));
       gap: 20px;
-      margin-top: 56px;
+      margin-top: 28px;
+      justify-content: center;
     }
     .course-card {
       padding: 32px;
@@ -146,7 +147,7 @@
     }
     .course-card p {
       color: var(--muted); font-size: 14px; font-weight: 300;
-      line-height: 1.7; flex: 1;
+      line-height: 1.7;
     }
     .course-meta {
       display: flex; gap: 16px; align-items: center;
@@ -546,7 +547,7 @@
           `;
         } else {
           coursesEl.innerHTML = featured.map(c => `
-            <a href="course.html?id=${c.id}" class="card course-card reveal">
+            <a href="course.html?id=${c.id}" class="card course-card">
               <div class="course-card-top">
                 <div>${getBadge(c.badge)}</div>
                 <div class="course-price">${c.price === 'Free' ? 'Free' : c.price}</div>
@@ -594,7 +595,7 @@
           `;
         } else {
           resEl.innerHTML = featured.map(r => `
-            <a href="${r.downloadLink}" target="_blank" class="card resource-card reveal">
+            <a href="${r.downloadLink}" target="_blank" class="card resource-card">
               ${getBadge(r.badge)}
               <h3>${r.title}</h3>
               <p>${r.description}</p>
