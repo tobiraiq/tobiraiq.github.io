@@ -24,6 +24,8 @@ const COURSES = [
     originalPrice: null,
     badge: "new",
     featured: true,
+    topSelling: true,      // shows in homepage carousel
+    salesCount: 0,         // update as sales grow — used for ordering
     thumbnail: null,
     availableDays: 3,    // Only Day 1-3 PDF available currently — update this as more days are added
     description: "A structured 120-day challenge designed to take you from an intermediate data engineer to an industry-ready senior professional. Every single day has a clear task — no confusion, no overwhelm. Work at your own pace and build skills that make a real difference to your career. Currently Day 1–3 study material is available. New days are added every week.",

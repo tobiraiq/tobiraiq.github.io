@@ -124,52 +124,52 @@
       transform: translateY(-2px);
     }
 
-    /* ── Featured Courses ────────────────────────────── */
-    .courses-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 360px));
-      gap: 20px;
-      margin-top: 28px;
+    /* ── Bestseller Carousel ───────────────────────────── */
+    .carousel-wrapper { position: relative; margin-top: 28px; }
+    .carousel-track-outer { overflow: hidden; }
+    .carousel-track {
+      display: flex; gap: 20px;
+      transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+      will-change: transform;
       justify-content: center;
     }
-    .course-card {
-      padding: 32px;
-      display: flex; flex-direction: column; gap: 14px;
-      cursor: none;
+    .carousel-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 28px;
+      display: flex; flex-direction: column; gap: 12px;
+      text-decoration: none; color: inherit;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      flex-shrink: 0; position: relative; overflow: hidden;
     }
-    .course-card-top {
-      display: flex; align-items: flex-start; justify-content: space-between;
+    .carousel-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--pink-glow), transparent);
+      transform: scaleX(0); transition: transform 0.3s;
     }
-    .course-card h3 {
-      font-family: var(--font-display);
-      font-size: 22px; font-weight: 600;
-      line-height: 1.25; margin-bottom: 6px;
+    .carousel-card:hover { border-color: var(--border-hover); transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .carousel-card:hover::before { transform: scaleX(1); }
+    .c-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .c-card-price { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--pink-glow); white-space: nowrap; }
+    .c-card-title { font-family: var(--font-display); font-size: 20px; font-weight: 600; line-height: 1.25; }
+    .c-card-desc { color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .c-card-meta { display: flex; gap: 14px; font-size: 11px; color: var(--muted); border-top: 1px solid var(--border); padding-top: 12px; margin-top: 4px; }
+    .c-card-quiz { font-size: 11px; color: var(--pink-glow); margin-top: 2px; }
+    .c-card-cta { color: var(--pink-glow); font-size: 13px; font-weight: 500; margin-top: 4px; display: flex; align-items: center; gap: 6px; transition: gap 0.3s; }
+    .carousel-card:hover .c-card-cta { gap: 10px; }
+    .carousel-dots { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 24px; }
+    .carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); border: none; cursor: pointer; transition: all 0.3s; padding: 0; }
+    .carousel-dot.active { background: var(--pink-glow); width: 24px; border-radius: 4px; }
+    .carousel-arrows { display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 12px; }
+    .carousel-arrow {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--muted); font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.3s;
     }
-    .course-card p {
-      color: var(--muted); font-size: 14px; font-weight: 300;
-      line-height: 1.7;
-    }
-    .course-meta {
-      display: flex; gap: 16px; align-items: center;
-      font-size: 12px; color: var(--muted);
-      border-top: 1px solid var(--border);
-      padding-top: 14px; margin-top: 4px;
-    }
-    .course-meta span { display: flex; align-items: center; gap: 5px; }
-    .course-price {
-      font-family: var(--font-display);
-      font-size: 20px; font-weight: 700;
-      color: var(--pink-glow);
-    }
-    .price-original {
-      font-size: 14px; color: var(--muted);
-      text-decoration: line-through; font-weight: 300;
-      font-family: var(--font-body);
-      margin-left: 6px;
-    }
-    .course-card-footer {
-      display: flex; align-items: center; justify-content: space-between;
-    }
+    .carousel-arrow:hover:not(:disabled) { border-color: var(--pink-glow); color: var(--pink-glow); transform: translateY(-2px); }
+    .carousel-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
+    .badge-bestseller { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 100px; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
 
     /* ── Resources Preview ───────────────────────────── */
     .resources-grid {
@@ -380,13 +380,28 @@
       <div class="categories-strip-inner" id="cat-pills"></div>
     </div>
 
-    <!-- ── Featured Courses ──────────────────────────── -->
+    <!-- ── Bestselling Courses Carousel ─────────────── -->
     <section class="section" style="padding-top: 40px; padding-bottom: 48px;">
       <div class="section-inner">
-        <span class="section-eyebrow reveal">Courses</span>
-        <h2 class="section-title reveal">Start learning today.</h2>
-        <p class="section-subtitle reveal">Structured courses built for real growth — from beginner to expert.</p>
-        <div class="courses-grid" id="featured-courses"></div>
+        <span class="section-eyebrow reveal">Bestselling Courses</span>
+        <h2 class="section-title reveal">Loved by learners worldwide.</h2>
+        <p class="section-subtitle reveal">Our most popular courses — trusted, structured and built for real results.</p>
+        <div class="carousel-wrapper reveal">
+          <div class="carousel-track-outer">
+            <div class="carousel-track" id="carousel-track"></div>
+          </div>
+          <div class="carousel-dots"  id="carousel-dots"></div>
+          <div class="carousel-arrows">
+            <button class="carousel-arrow" id="carousel-prev" onclick="carouselPrev()" aria-label="Previous">←</button>
+            <button class="carousel-arrow" id="carousel-next" onclick="carouselNext()" aria-label="Next">→</button>
+          </div>
+        </div>
+        <div id="courses-empty" style="display:none; text-align:center; padding:64px 24px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius-md); margin-top:28px;">
+          <div style="font-size:48px; margin-bottom:16px;">🚀</div>
+          <h3 style="font-family:var(--font-display); font-size:24px; margin-bottom:10px;">First course dropping soon!</h3>
+          <p style="color:var(--muted); font-size:15px; max-width:400px; margin:0 auto 28px; line-height:1.7;">Subscribe to the newsletter to get notified the moment it goes live.</p>
+          <a href="https://tobiraiq.beehiiv.com" target="_blank" class="btn btn-primary">Notify Me →</a>
+        </div>
         <div style="text-align:center; margin-top:24px;" class="reveal">
           <a href="courses.html" class="btn btn-outline">View All Courses →</a>
         </div>
@@ -518,56 +533,110 @@
           `).join('');
       }
 
-      // ── Render Featured Courses ─────────────────────
-      const coursesEl = document.getElementById('featured-courses');
-      if (coursesEl && typeof COURSES !== 'undefined') {
-        const featured = COURSES.filter(c => c.featured).slice(0, 3);
-        if (featured.length === 0) {
-          coursesEl.innerHTML = `
-            <div style="
-              grid-column: 1/-1;
-              text-align: center;
-              padding: 64px 24px;
-              background: var(--card);
-              border: 1px solid var(--border);
-              border-radius: var(--radius-md);
-            ">
-              <div style="font-size:48px; margin-bottom:16px;">🚀</div>
-              <h3 style="font-family:var(--font-display); font-size:24px; margin-bottom:10px;">
-                First course dropping soon!
-              </h3>
-              <p style="color:var(--muted); font-size:15px; max-width:400px; margin:0 auto 28px; line-height:1.7;">
-                We are working hard on our first course. 
-                Subscribe to the newsletter to get notified the moment it goes live.
-              </p>
-              <a href="https://tobiraiq.beehiiv.com" target="_blank" class="btn btn-primary">
-                Notify Me →
-              </a>
-            </div>
-          `;
-        } else {
-          coursesEl.innerHTML = featured.map(c => `
-            <a href="course.html?id=${c.id}" class="card course-card">
-              <div class="course-card-top">
-                <div>${getBadge(c.badge)}</div>
-                <div class="course-price">${c.price === 'Free' ? 'Free' : c.price}</div>
-              </div>
-              <h3>${c.title}</h3>
-              <p>${c.description.substring(0, 120)}…</p>
-              <div class="course-meta">
-                <span>📅 ${c.duration}</span>
-                <span>📶 ${c.level}</span>
-              </div>
-              <div style="font-size:12px; color:var(--pink-glow); margin-top:4px;">
-                📝 Free daily quizzes included
-              </div>
-              <div class="course-card-footer">
-                <div class="btn btn-ghost">View Course →</div>
-              </div>
-            </a>
-          `).join('');
-        }
+      // ── Render Bestseller Carousel ──────────────────
+      var carouselState = { current: 0, perView: 3, total: 0, courses: [] };
+
+      function getPerView() {
+        return window.innerWidth < 640 ? 1 : window.innerWidth < 1024 ? 2 : 3;
       }
+
+      function buildCarousel() {
+        if (typeof COURSES === 'undefined') return;
+
+        // Get top selling courses (topSelling: true), max 10
+        // Sort by salesCount descending so best sellers come first
+        var list = COURSES
+          .filter(function(c) { return c.topSelling; })
+          .sort(function(a, b) { return (b.salesCount || 0) - (a.salesCount || 0); })
+          .slice(0, 10);
+
+        var track     = document.getElementById('carousel-track');
+        var dotsEl    = document.getElementById('carousel-dots');
+        var emptyEl   = document.getElementById('courses-empty');
+        if (!track) return;
+
+        if (list.length === 0) {
+          track.parentElement.parentElement.style.display = 'none';
+          if (emptyEl) emptyEl.style.display = 'block';
+          return;
+        }
+
+        carouselState.courses = list;
+        carouselState.perView = getPerView();
+        carouselState.total   = list.length;
+        carouselState.current = 0;
+
+        // Card width — constrain max so single card doesn't stretch full width
+        var containerW = track.parentElement.offsetWidth;
+        var pv         = carouselState.perView;
+        var cardW      = list.length < pv
+          ? Math.min(360, containerW)   // single/few cards: max 360px, centered
+          : (containerW - (pv - 1) * 20) / pv;
+
+        track.innerHTML = list.map(function(c) {
+          var badge = c.badge === 'new' ?
+            '<span class="badge-new badge">NEW</span>' :
+            c.topSelling && (c.salesCount || 0) > 0 ?
+            '<span class="badge-bestseller">BESTSELLER</span>' : '';
+          var desc = c.description.length > 100 ?
+            c.description.substring(0, 100) + '…' : c.description;
+          return '<a href="course.html?id=' + c.id + '" class="carousel-card" style="width:' + cardW + 'px; min-width:' + cardW + 'px;">' +
+            '<div class="c-card-top"><div>' + badge + '</div><div class="c-card-price">' + c.price + '</div></div>' +
+            '<div class="c-card-title">' + c.title + '</div>' +
+            '<div class="c-card-desc">' + desc + '</div>' +
+            '<div class="c-card-meta"><span>📅 ' + c.duration + '</span><span>📶 ' + c.level + '</span></div>' +
+            '<div class="c-card-quiz">📝 Free daily quizzes included</div>' +
+            '<div class="c-card-cta">View Course →</div>' +
+          '</a>';
+        }).join('');
+
+        // Build dots — one dot per page
+        var pages = Math.ceil(list.length / pv);
+        dotsEl.innerHTML = '';
+        for (var i = 0; i < pages; i++) {
+          dotsEl.innerHTML += '<button class="carousel-dot' + (i === 0 ? ' active' : '') +
+            '" onclick="carouselGoTo(' + i + ')" aria-label="Page ' + (i+1) + '"></button>';
+        }
+
+        updateCarouselArrows();
+      }
+
+      window.carouselGoTo = function(pageIndex) {
+        var pv    = getPerView();
+        var pages = Math.ceil(carouselState.total / pv);
+        carouselState.current = Math.max(0, Math.min(pageIndex, pages - 1));
+        carouselState.perView = pv;
+
+        var containerW = document.getElementById('carousel-track').parentElement.offsetWidth;
+        var cardW      = (containerW - (pv - 1) * 20) / pv;
+        var offset     = carouselState.current * (cardW * pv + 20 * pv);
+        document.getElementById('carousel-track').style.transform = 'translateX(-' + offset + 'px)';
+
+        // Update dots
+        var dots = document.querySelectorAll('.carousel-dot');
+        dots.forEach(function(d, i) { d.classList.toggle('active', i === carouselState.current); });
+        updateCarouselArrows();
+      };
+
+      window.carouselPrev = function() { carouselGoTo(carouselState.current - 1); };
+      window.carouselNext = function() { carouselGoTo(carouselState.current + 1); };
+
+      function updateCarouselArrows() {
+        var pv    = getPerView();
+        var pages = Math.ceil(carouselState.total / pv);
+        var prev  = document.getElementById('carousel-prev');
+        var next  = document.getElementById('carousel-next');
+        if (prev) prev.disabled = carouselState.current === 0;
+        if (next) next.disabled = carouselState.current >= pages - 1;
+      }
+
+      // Rebuild on resize for responsive
+      window.addEventListener('resize', function() {
+        var newPv = getPerView();
+        if (newPv !== carouselState.perView) buildCarousel();
+      });
+
+      buildCarousel();
 
       // ── Render Featured Resources ───────────────────
       const resEl = document.getElementById('featured-resources');
