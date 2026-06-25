@@ -54,7 +54,20 @@
     .buy-price {
       font-family: var(--font-display);
       font-size: 48px; font-weight: 700;
-      color: var(--pink-glow); margin-bottom: 6px;
+      color: var(--pink-glow); margin-bottom: 4px;
+      display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+    }
+    .buy-price-original {
+      font-size: 22px; color: var(--muted);
+      text-decoration: line-through; font-weight: 300;
+      font-family: var(--font-body);
+    }
+    .buy-price-discount {
+      font-size: 13px; font-weight: 700;
+      background: rgba(251,191,36,0.15);
+      color: #fbbf24; border: 1px solid rgba(251,191,36,0.3);
+      padding: 3px 10px; border-radius: 100px;
+      letter-spacing: 0.5px; font-family: var(--font-body);
     }
     .buy-price-free { color: #4ade80; }
     .buy-price-note {
@@ -526,8 +539,9 @@
     document.title = `${course.title} — TobiraIQ`;
 
     // ── Price display ─────────────────────────────────
-    const priceClass = '';
-    const priceText  = course.price === 'Free' ? 'Phase 1 Free' : course.price;
+    const isComingSoon = course.price === 'Coming Soon';
+    const priceClass   = '';
+    const priceText    = course.price;
 
     page.innerHTML = `
       <!-- Hero -->
@@ -549,8 +563,28 @@
         </div>
         <!-- Buy Card -->
         <div class="buy-card reveal">
-          <div class="buy-price ${priceClass}">${priceText}</div>
-          <div class="buy-price-note">Phase 1 is free. Full course access via Gumroad.</div>
+          ${course.price === 'Phase 1 Free' ? `
+            <div class="buy-price">
+              <span style="color:#4ade80;">Phase 1 Free</span>
+              <span style="font-size:18px; color:var(--muted); font-family:var(--font-body);">then ${course.discountedPrice || course.paidPrice || ''}</span>
+              ${course.originalPrice ? `<span class="buy-price-original">${course.originalPrice}</span>` : ''}
+              ${course.discountPercent ? `<span class="buy-price-discount">${course.discountPercent}% OFF</span>` : ''}
+            </div>
+          ` : `
+            <div class="buy-price">
+              <span>${isComingSoon ? 'Coming Soon' : (course.discountedPrice || course.price)}</span>
+              ${!isComingSoon && course.originalPrice ? `<span class="buy-price-original">${course.originalPrice}</span>` : ''}
+              ${!isComingSoon && course.discountPercent ? `<span class="buy-price-discount">${course.discountPercent}% OFF</span>` : ''}
+            </div>
+          `}
+          <div class="buy-price-note">${isComingSoon
+            ? 'This course is launching soon. Join the newsletter to be notified.'
+            : course.price === 'Free'
+              ? 'This course is completely free. No payment required.'
+              : course.price === 'Phase 1 Free'
+                ? 'Phase 1 is free. Unlock all phases via Gumroad.'
+                : 'Full course access via Gumroad.'
+          }</div>
           <ul class="buy-includes">
             <li>${course.phases ? course.phases.length : course.modules.length} structured phases</li>
             <li>${course.whatYouLearn.length} skills covered</li>
@@ -558,12 +592,10 @@
           </ul>
           <div class="buy-divider"></div>
           <div class="buy-buttons">
-            <a href="${course.gumroadLink}" target="_blank" class="btn btn-primary btn-gumroad">
-              Get on Gumroad 🛒
-            </a>
-            <button onclick="scrollToQuiz()" class="btn btn-outline" style="justify-content:center;">
-              Try Free Daily Quiz 📝
-            </button>
+            ${isComingSoon
+              ? '<a href="https://tobiraiq.beehiiv.com" target="_blank" class="btn btn-primary" style="justify-content:center;">Notify Me When Live 🔔</a>'
+              : '<a href="' + course.gumroadLink + '" target="_blank" class="btn btn-primary btn-gumroad">Get on Gumroad 🛒</a><button onclick="scrollToQuiz()" class="btn btn-outline" style="justify-content:center;">Try Free Daily Quiz 📝</button>'
+            }
           </div>
         </div>
       </div>
@@ -581,10 +613,10 @@
 
         <!-- Phase Overview -->
         <div class="course-section reveal">
-          <h2>Your 120-Day Journey</h2>
+          <h2>${course.journeyTitle || 'Course Roadmap'}</h2>
           <p style="color:var(--muted); font-size:14px; margin-bottom:28px; line-height:1.7;">
-            The course is structured into 5 clear phases. Each phase builds on the previous one.
-            The detailed daily plan is shared with enrolled students — here is your complete overview.
+            The course is structured into ${course.phases ? course.phases.length : ''} clear phases. Each phase builds on the previous one.
+            The detailed plan is shared with enrolled students — here is your complete overview.
           </p>
           <div class="phases-list">
             ${course.phases.map((p, i) => `

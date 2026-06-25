@@ -580,8 +580,24 @@
             '<span class="badge-bestseller">BESTSELLER</span>' : '';
           var desc = c.description.length > 100 ?
             c.description.substring(0, 100) + '…' : c.description;
+
+          // Price display with urgency
+          var priceHTML = '';
+          if (c.price === 'Coming Soon') {
+            priceHTML = '<span style="font-size:14px; color:var(--muted); font-style:italic;">Coming Soon</span>';
+          } else if (c.originalPrice && c.discountPercent) {
+            var displayPrice = c.discountedPrice || c.paidPrice || c.price;
+            priceHTML =
+              '<div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">' +
+                '<span style="font-family:var(--font-display); font-size:18px; font-weight:700; color:var(--pink-glow);">' + displayPrice + '</span>' +
+                '<span style="font-size:12px; color:var(--muted); text-decoration:line-through;">' + c.originalPrice + '</span>' +
+                '<span style="background:rgba(251,191,36,0.15); color:#fbbf24; border:1px solid rgba(251,191,36,0.3); padding:2px 8px; border-radius:100px; font-size:10px; font-weight:700;">' + c.discountPercent + '% OFF</span>' +
+              '</div>';
+          } else {
+            priceHTML = '<span style="font-family:var(--font-display); font-size:18px; font-weight:700; color:var(--pink-glow);">' + c.price + '</span>';
+          }
           return '<a href="course.html?id=' + c.id + '" class="carousel-card" style="width:' + cardW + 'px; min-width:' + cardW + 'px;">' +
-            '<div class="c-card-top"><div>' + badge + '</div><div class="c-card-price">' + c.price + '</div></div>' +
+            '<div class="c-card-top"><div>' + badge + '</div><div>' + priceHTML + '</div></div>' +
             '<div class="c-card-title">' + c.title + '</div>' +
             '<div class="c-card-desc">' + desc + '</div>' +
             '<div class="c-card-meta"><span>📅 ' + c.duration + '</span><span>📶 ' + c.level + '</span></div>' +

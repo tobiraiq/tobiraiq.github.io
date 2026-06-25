@@ -22,7 +22,7 @@ const CATEGORIES = [
     icon: "💼",
     description: "Interview prep, resume guides and roadmaps",
     color: "#9d174d",
-    active: false   // Enable when content is ready
+    active: true    // Activated — 30 Days Fresher course is live
   },
   {
     id: "students",
