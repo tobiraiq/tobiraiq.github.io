@@ -561,6 +561,9 @@
             <a href="${course.gumroadLink}" target="_blank" class="btn btn-primary btn-gumroad">
               Get on Gumroad 🛒
             </a>
+            <button onclick="scrollToQuiz()" class="btn btn-outline" style="justify-content:center;">
+              Try Free Daily Quiz 📝
+            </button>
           </div>
         </div>
       </div>
@@ -902,6 +905,14 @@
 
     resultsEl.classList.add('show');
     resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ── Scroll to Quiz ────────────────────────────────────
+  function scrollToQuiz() {
+    var quizSection = document.getElementById('quiz-section');
+    if (quizSection) {
+      quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   // ── Phase Toggle ──────────────────────────────────────
