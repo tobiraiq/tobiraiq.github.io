@@ -10,9 +10,142 @@
 //
 // IMPORTANT: Only add courses that are READY for students.
 // Do not add placeholder or coming soon entries here.
+//
+// journeyTitle GUIDE — set this for every course:
+//   "30 Days to Fresher"    → "Your 30-Day Roadmap"
+//   "Web Designer Course"   → "Your Web Design Journey"
+//   "Become Advanced Coder" → "Your Coding Roadmap"
+//   "120 Days Data Eng."    → "Your 120-Day Roadmap"
+//   If not set → defaults to "Course Roadmap"
+//
+// PRICING GUIDE (always use ₹ for INR):
+//   price: "Free"            → completely free
+//   price: "Phase 1 Free"    → phase 1 free, rest paid
+//   price: "₹999"            → fully paid
+//   price: "Coming Soon"     → not launched yet
+//   paidPrice: "₹999"        → actual price shown
+//   originalPrice: "₹1,999"  → crossed out price
+//   discountPercent: 50       → yellow % OFF badge
 // ============================================================
 
 const COURSES = [
+
+  // ── 30 Day Fresher Course ─────────────────────────────
+  {
+    id: "30-days-fresher-interview",
+    title: "30 Days to Fresher Interview Success",
+    subtitle: "From Zero to Interview-Ready for Tech Companies",
+    category: "careers",
+    level: "Beginner",
+    duration: "30 Days",
+    price: "Coming Soon",
+    originalPrice: "₹1,999",
+    discountedPrice: "₹999",
+    discountPercent: 50,
+    discountDeadline: null,
+    journeyTitle: "Your 30-Day Roadmap",
+    badge: "new",
+    featured: true,
+    topSelling: true,
+    salesCount: 0,
+    thumbnail: null,
+    availableDays: 0,
+    description: "A structured 30-day program designed for final-year students with zero technical background. 4 hours a day, split into two focused parts — covering Python, SQL, Git, project explanation and HR preparation. Everything you need to crack mass hiring tech assessments.",
+
+    phases: [
+      {
+        number: 1,
+        name: "Foundations",
+        days: "Days 1–7",
+        duration: "7 days · 28 hours total",
+        color: "#00C6A7",
+        overview: "Build your very first technical foundation from scratch. Week 1 introduces Python programming, SQL databases and Git version control — all starting from absolute zero. No prior experience needed. Every concept is explained simply with hands-on practice from Day 1.",
+        deliverable: "By Day 7 you will have Python installed and running, your first SQL queries working on a local database, and a Git repository set up on GitHub — all ready to build on.",
+        skills: ["Python Basics", "SQL SELECT", "Git Init", "Variables", "Data Types", "WHERE Clause"]
+      },
+      {
+        number: 2,
+        name: "Core Skills",
+        days: "Days 8–14",
+        duration: "7 days · 28 hours total",
+        color: "#4A9EFF",
+        overview: "Move from basics to building real capability. Week 2 covers SQL aggregate functions and joins, Python data structures and functions, and Git branching workflows. These are the exact skills tested in mass hiring assessments.",
+        deliverable: "By Day 14 you will be comfortable writing SQL JOIN queries, building Python functions with parameters, and managing code using Git branches — all assessed in Week 2 review.",
+        skills: ["SQL JOINs", "GROUP BY", "Python Functions", "Lists & Dicts", "Git Branching", "HAVING Clause"]
+      },
+      {
+        number: 3,
+        name: "Interview-Level Concepts",
+        days: "Days 15–21",
+        duration: "7 days · 28 hours total",
+        color: "#9C7FFF",
+        overview: "Elevate your skills to interview level. Week 3 introduces exception handling, subqueries, window functions, file handling, OOP basics and pull requests on GitHub. These concepts separate shortlisted candidates from the rest.",
+        deliverable: "By Day 21 you will understand OOP fundamentals, write subqueries confidently, handle exceptions in Python, and have completed your first pull request on GitHub.",
+        skills: ["OOP Basics", "Subqueries", "Window Functions", "Exception Handling", "Pull Requests", "CASE WHEN"]
+      },
+      {
+        number: 4,
+        name: "Interview Pattern Mastery",
+        days: "Days 22–25",
+        duration: "4 days · 16 hours total",
+        color: "#FF7043",
+        overview: "Tackle the exact question patterns that appear in mass hiring assessments. Days 22–24 solve the most commonly asked SQL, Python and Git interview questions with full explanations. Day 25 is a timed mock test simulating real assessment conditions.",
+        deliverable: "By Day 25 you will have solved 30+ interview questions across SQL, Python and Git, and completed one full timed mock test under real assessment conditions.",
+        skills: ["SQL Interview Q&A", "Python Interview Q&A", "Git Interview Q&A", "Mock Test", "Time Management"]
+      },
+      {
+        number: 5,
+        name: "Project & HR Sprint",
+        days: "Days 26–30",
+        duration: "5 days · 20 hours total",
+        color: "#FFB300",
+        overview: "The final phase prepares you for the human side of interviews. Learn to explain your final year project confidently, craft your 60-second self-introduction, handle tricky HR questions and walk into interview day with a clear, calm strategy.",
+        deliverable: "By Day 30 you will have a polished project explanation, prepared answers for all common HR questions, completed a full mock interview round, and a mental game plan for interview day.",
+        skills: ["Project Explanation", "Tell Me About Yourself", "HR Questions", "Mock Interview", "Company Research"]
+      }
+    ],
+
+    whatYouLearn: [
+      "Python fundamentals — variables, loops, functions, OOP and file handling",
+      "SQL from scratch — SELECT to JOINs, subqueries and window functions",
+      "Git and GitHub — version control, branching and pull requests",
+      "How to explain your final year project clearly to any interviewer",
+      "Answers to the most common SQL, Python and Git interview questions",
+      "HR round preparation — tell me about yourself, strengths, tricky questions",
+      "How to handle mass hiring assessment question patterns with confidence",
+      "Time management strategies for technical aptitude tests"
+    ],
+
+    faqs: [
+      {
+        q: "Who is this course for?",
+        a: "This course is for final-year engineering and bachelor's students who are preparing for campus placements and mass hiring drives at tech companies. No prior programming experience is required."
+      },
+      {
+        q: "How much time do I need every day?",
+        a: "4 hours per day — split into two 2-hour parts. Part 1 and Part 2 cover different topics each day so you never get fatigued by one subject."
+      },
+      {
+        q: "Is this course available now?",
+        a: "This course is coming soon. Subscribe to our free newsletter at tobiraiq.beehiiv.com to get notified the moment it launches."
+      },
+      {
+        q: "What tools do I need?",
+        a: "Python (free), MySQL (free), Git (free) and a GitHub account (free). Total setup cost is zero — full installation guides are included in the course."
+      },
+      {
+        q: "Does this cover aptitude and logical reasoning?",
+        a: "This course focuses on technical skills — Python, SQL and Git. Aptitude and logical reasoning will be covered in a separate dedicated module coming soon."
+      }
+    ],
+
+    gumroadLink: "https://tobiraiq.gumroad.com",
+    whatsappText: "Hi TobiraIQ! I am interested in the 30 Days Fresher Interview course. Can you share more details?",
+    reviews: [],
+    createdAt: "2025-01-01"
+  },
+
+  // ── 120 Days Data Engineering ─────────────────────────
   {
     id: "120-days-data-engineering",
     title: "120 Days to Advanced Data Engineering",
@@ -20,8 +153,13 @@ const COURSES = [
     category: "data-engineering",
     level: "Intermediate → Advanced",
     duration: "120 Days",
-    price: "Free",
-    originalPrice: null,
+    price: "Phase 1 Free",
+    paidPrice: "₹999",
+    originalPrice: "₹1,999",
+    discountedPrice: "₹999",
+    discountPercent: 50,
+    discountDeadline: null,
+    journeyTitle: "Your 120-Day Roadmap",
     badge: "new",
     featured: true,
     topSelling: true,      // shows in homepage carousel

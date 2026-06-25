@@ -24,6 +24,14 @@ window.QUIZ_INDEX = {
     // Example when Day 4 is ready: [1, 2, 3, 4]
   },
 
+  "30-days-fresher-interview": {
+    totalDays:     30,
+    availableDays: []
+    // All days locked until quiz content is added
+    // Add day numbers here as you create questions
+    // Example when Day 1 is ready: [1]
+  },
+
   // Add new courses below when ready:
   // "your-course-id": {
   //   totalDays:     30,
