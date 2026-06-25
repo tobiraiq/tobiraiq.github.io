@@ -210,10 +210,263 @@
     }
     .faq-item.open .faq-answer { max-height: 200px; padding: 0 24px 20px; }
 
+    /* ── Quiz Section ──────────────────────────────────── */
+    .quiz-section { margin-bottom: 64px; }
+    .quiz-section h2 {
+      font-family: var(--font-display);
+      font-size: 32px; font-weight: 700;
+      margin-bottom: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .quiz-intro {
+      color: var(--muted); font-size: 14px;
+      margin-bottom: 28px; line-height: 1.7;
+    }
+
+    /* Day Grid */
+    .day-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 8px;
+      margin-bottom: 40px;
+    }
+    .day-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 8px;
+      text-align: center;
+      font-size: 12px; font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--font-body);
+      position: relative;
+    }
+    .day-btn.available:hover {
+      border-color: var(--pink-glow);
+      color: var(--pink-glow);
+      transform: translateY(-2px);
+    }
+    .day-btn.active {
+      background: var(--pink);
+      border-color: var(--pink);
+      color: #fff;
+    }
+    .day-btn.locked {
+      opacity: 0.4;
+      cursor: not-allowed;
+      position: relative;
+    }
+    .day-btn.locked:hover { opacity: 0.55; }
+    .day-btn.locked:hover::after {
+      content: 'Coming soon';
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1a0018;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .day-btn .lock-icon {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    .day-btn .day-label { display: block; }
+
+    /* Quiz Box */
+    .quiz-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: none;
+    }
+    .quiz-box.active { display: block; }
+
+    .quiz-header {
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .quiz-title {
+      font-family: var(--font-display);
+      font-size: 20px; font-weight: 600;
+    }
+    .quiz-progress-text {
+      font-size: 13px; color: var(--muted);
+    }
+    .quiz-progress-bar {
+      height: 3px;
+      background: var(--border);
+    }
+    .quiz-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--pink), var(--pink-glow));
+      transition: width 0.4s ease;
+    }
+
+    /* Question */
+    .quiz-question-wrap { padding: 32px; }
+    .question-number {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--pink-glow); margin-bottom: 12px;
+    }
+    .question-text {
+      font-size: 18px; font-weight: 500;
+      line-height: 1.6; margin-bottom: 24px;
+      font-family: var(--font-display);
+    }
+    .options-grid {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .option-btn {
+      background: rgba(131,24,67,0.08);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 20px;
+      text-align: left;
+      font-size: 14px; color: var(--white);
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--font-body);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--pink-glow);
+      background: rgba(131,24,67,0.15);
+    }
+    .option-btn.correct {
+      background: rgba(34,197,94,0.15);
+      border-color: #4ade80;
+      color: #4ade80;
+    }
+    .option-btn.wrong {
+      background: rgba(239,68,68,0.15);
+      border-color: #f87171;
+      color: #f87171;
+    }
+    .option-btn:disabled { cursor: not-allowed; }
+    .option-letter {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* Explanation */
+    .explanation {
+      margin-top: 20px;
+      background: rgba(249,168,212,0.08);
+      border: 1px solid rgba(249,168,212,0.2);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      font-size: 13px; color: var(--muted-light);
+      line-height: 1.7; display: none;
+    }
+    .explanation.show { display: block; }
+    .explanation strong { color: var(--pink-glow); }
+
+    /* Nav buttons */
+    .quiz-nav {
+      padding: 0 32px 32px;
+      display: flex; justify-content: flex-end;
+    }
+    .quiz-next-btn {
+      background: var(--pink);
+      color: #fff; border: none;
+      border-radius: var(--radius-full);
+      padding: 12px 28px;
+      font-size: 14px; font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: all var(--transition);
+      display: none;
+    }
+    .quiz-next-btn:hover { background: var(--pink-light); transform: translateY(-2px); }
+    .quiz-next-btn.show { display: inline-flex; }
+
+    /* Results */
+    .quiz-results {
+      padding: 40px 32px;
+      text-align: center; display: none;
+    }
+    .quiz-results.show { display: block; }
+    .score-circle {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      border: 4px solid var(--pink);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      margin: 0 auto 24px;
+    }
+    .score-number {
+      font-family: var(--font-display);
+      font-size: 40px; font-weight: 700;
+      color: var(--pink-glow); line-height: 1;
+    }
+    .score-total { font-size: 13px; color: var(--muted); }
+    .score-message {
+      font-size: 18px; font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .score-sub {
+      color: var(--muted); font-size: 14px;
+      margin-bottom: 32px;
+    }
+
+    /* Answer Review */
+    .answer-review { text-align: left; margin-top: 32px; }
+    .answer-review h3 {
+      font-family: var(--font-display);
+      font-size: 22px; margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .review-item {
+      background: rgba(131,24,67,0.06);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin-bottom: 12px;
+    }
+    .review-item.correct-item { border-color: rgba(74,222,128,0.3); }
+    .review-item.wrong-item   { border-color: rgba(248,113,113,0.3); }
+    .review-q {
+      font-size: 14px; font-weight: 600;
+      margin-bottom: 10px; line-height: 1.5;
+    }
+    .review-your-answer {
+      font-size: 13px; margin-bottom: 4px;
+    }
+    .review-correct-answer { font-size: 13px; color: #4ade80; margin-bottom: 8px; }
+    .review-explanation-text {
+      font-size: 12px; color: var(--muted);
+      line-height: 1.6; font-style: italic;
+    }
+    .tick { color: #4ade80; }
+    .cross { color: #f87171; }
+
     @media (max-width: 900px) {
       .course-hero { grid-template-columns: 1fr; gap: 40px; }
       .buy-card { position: static; }
       .learn-grid { grid-template-columns: 1fr; }
+      .day-grid { grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); }
+      .quiz-question-wrap { padding: 24px; }
+      .quiz-nav { padding: 0 24px 24px; }
     }
   </style>
 </head>
@@ -250,6 +503,7 @@
   <script src="data/categories.js"></script>
   <script src="data/courses.js"></script>
   <script src="data/resources.js"></script>
+  <script src="data/questions/index.js"></script>
   <script src="js/main.js"></script>
   <script>
   document.addEventListener('DOMContentLoaded', () => {
@@ -382,6 +636,30 @@
           </div>
         </div>
 
+        <!-- Daily Quizzes -->
+        <div class="quiz-section" id="quiz-section">
+          <h2>📝 Daily Quizzes</h2>
+          <p class="quiz-intro">
+            Test your knowledge after each day. Select a day below to start the quiz.
+            Unlocked days have content available — locked days will open as new content is released.
+          </p>
+          <div class="day-grid" id="day-grid"></div>
+          <div class="quiz-box" id="quiz-box">
+            <div class="quiz-header">
+              <span class="quiz-title" id="quiz-title"></span>
+              <span class="quiz-progress-text" id="quiz-progress-text"></span>
+            </div>
+            <div class="quiz-progress-bar">
+              <div class="quiz-progress-fill" id="quiz-progress-fill" style="width:0%"></div>
+            </div>
+            <div class="quiz-question-wrap" id="quiz-question-wrap"></div>
+            <div class="quiz-nav">
+              <button class="quiz-next-btn" id="quiz-next-btn" onclick="nextQuestion()">Next →</button>
+            </div>
+            <div class="quiz-results" id="quiz-results"></div>
+          </div>
+        </div>
+
       </div>
     `;
 
@@ -392,7 +670,239 @@
       }, { threshold: 0.08 });
       obs.observe(el);
     });
+
+    // Build day grid
+    buildDayGrid(course);
   });
+
+  // ── Build Day Grid ─────────────────────────────────────
+  function buildDayGrid(course) {
+    const grid      = document.getElementById('day-grid');
+    const indexData = window.QUIZ_INDEX && window.QUIZ_INDEX[course.id];
+    if (!grid) return;
+
+    // No quiz index entry for this course yet
+    if (!indexData) {
+      grid.innerHTML = `
+        <div style="
+          grid-column: 1/-1; text-align: center;
+          padding: 40px 24px; background: var(--card);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-sm);
+          color: var(--muted); font-size: 14px; line-height: 1.8;
+        ">
+          📝 Quizzes for this course are coming soon!<br>
+          <span style="font-size:12px;">Check back as new content is released.</span>
+        </div>`;
+      return;
+    }
+
+    const totalDays  = indexData.totalDays || parseInt(course.duration) || 30;
+    const available  = indexData.availableDays || [];
+    let html = '';
+
+    for (let d = 1; d <= totalDays; d++) {
+      if (available.includes(d)) {
+        html += `<button class="day-btn available"
+          onclick="startQuiz('${course.id}', ${d}, this)"
+          title="Day ${d} quiz">
+          <span class="day-label">Day ${d}</span>
+        </button>`;
+      } else {
+        html += `<button class="day-btn locked" disabled title="Coming soon">
+          <span class="lock-icon">🔒</span>
+          <span class="day-label">Day ${d}</span>
+        </button>`;
+      }
+    }
+    grid.innerHTML = html;
+  }
+
+  // ── Load Day Script Dynamically ─────────────────────────
+  function loadDayScript(courseId, day) {
+    return new Promise(function(resolve, reject) {
+      // Remove any previously loaded day script
+      var old = document.getElementById('quiz-day-script');
+      if (old) old.remove();
+      // Clear previous day data
+      window.QUIZ_DAY_DATA = null;
+
+      var script   = document.createElement('script');
+      script.id    = 'quiz-day-script';
+      script.src   = 'data/questions/' + courseId + '/day' + day + '.js';
+      script.onload  = function() { resolve(window.QUIZ_DAY_DATA); };
+      script.onerror = function() { reject(new Error('Quiz file not found')); };
+      document.head.appendChild(script);
+    });
+  }
+
+  // ── Start Quiz ─────────────────────────────────────────
+  function startQuiz(courseId, day, btnEl) {
+    // Mark active button
+    document.querySelectorAll('.day-btn').forEach(function(b) {
+      b.classList.remove('active');
+    });
+    if (btnEl) btnEl.classList.add('active');
+
+    // Show loading state
+    var box = document.getElementById('quiz-box');
+    box.classList.add('active');
+    document.getElementById('quiz-question-wrap').innerHTML =
+      '<div style="text-align:center; padding:40px; color:var(--muted);">Loading quiz...</div>';
+    document.getElementById('quiz-results').classList.remove('show');
+    document.getElementById('quiz-results').innerHTML = '';
+    document.getElementById('quiz-next-btn').classList.remove('show');
+    document.getElementById('quiz-progress-text').textContent = '';
+    document.getElementById('quiz-title').textContent = 'Loading...';
+    document.getElementById('quiz-progress-fill').style.width = '0%';
+    box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Load the day's question file
+    loadDayScript(courseId, day)
+      .then(function(dayData) {
+        if (!dayData || !dayData.questions || !dayData.questions.length) {
+          document.getElementById('quiz-question-wrap').innerHTML =
+            '<div style="text-align:center; padding:40px; color:var(--muted);">No questions found for this day.</div>';
+          return;
+        }
+        quizState.questions = dayData.questions;
+        quizState.current   = 0;
+        quizState.answers   = [];
+        quizState.dayTitle  = dayData.title;
+        quizState.answered  = false;
+        renderQuestion();
+      })
+      .catch(function() {
+        document.getElementById('quiz-question-wrap').innerHTML =
+          '<div style="text-align:center; padding:40px; color:var(--muted);">Could not load quiz. Please try again.</div>';
+      });
+  }
+
+  // ── Quiz State ─────────────────────────────────────────
+  var quizState = {
+    questions:  [],
+    current:    0,
+    answers:    [],
+    dayTitle:   '',
+    answered:   false
+  };
+
+  // ── Render Question ────────────────────────────────────
+  function renderQuestion() {
+    var q      = quizState.questions[quizState.current];
+    var total  = quizState.questions.length;
+    var num    = quizState.current + 1;
+    var letters = ['A', 'B', 'C', 'D'];
+
+    document.getElementById('quiz-title').textContent        = quizState.dayTitle;
+    document.getElementById('quiz-progress-text').textContent = 'Question ' + num + ' of ' + total;
+    document.getElementById('quiz-progress-fill').style.width = ((num - 1) / total * 100) + '%';
+    document.getElementById('quiz-next-btn').classList.remove('show');
+    document.getElementById('quiz-results').classList.remove('show');
+    quizState.answered = false;
+
+    var wrap = document.getElementById('quiz-question-wrap');
+    var optHTML = q.options.map(function(opt, i) {
+      return '<button class="option-btn" onclick="selectAnswer(' + i + ')">' +
+        '<span class="option-letter">' + letters[i] + '</span>' +
+        '<span>' + opt + '</span>' +
+        '</button>';
+    }).join('');
+
+    wrap.innerHTML =
+      '<div class="question-number">Question ' + num + ' / ' + total + '</div>' +
+      '<div class="question-text">' + q.q + '</div>' +
+      '<div class="options-grid">' + optHTML + '</div>' +
+      '<div class="explanation" id="explanation"><strong>💡 Explanation:</strong> ' + q.explanation + '</div>';
+  }
+
+  // ── Select Answer ──────────────────────────────────────
+  function selectAnswer(selectedIndex) {
+    if (quizState.answered) return;
+    quizState.answered = true;
+
+    var q       = quizState.questions[quizState.current];
+    var correct = q.answer;
+    var btns    = document.querySelectorAll('.option-btn');
+
+    quizState.answers.push({ selected: selectedIndex, correct: correct });
+
+    btns.forEach(function(btn, i) {
+      btn.disabled = true;
+      if (i === correct) btn.classList.add('correct');
+      else if (i === selectedIndex) btn.classList.add('wrong');
+    });
+
+    document.getElementById('explanation').classList.add('show');
+    document.getElementById('quiz-next-btn').classList.add('show');
+
+    // Last question → change button text
+    if (quizState.current === quizState.questions.length - 1) {
+      document.getElementById('quiz-next-btn').textContent = 'See Results →';
+    }
+  }
+
+  // ── Next Question ──────────────────────────────────────
+  function nextQuestion() {
+    quizState.current++;
+    if (quizState.current < quizState.questions.length) {
+      renderQuestion();
+    } else {
+      showResults();
+    }
+  }
+
+  // ── Show Results ───────────────────────────────────────
+  function showResults() {
+    var total   = quizState.questions.length;
+    var score   = quizState.answers.filter(function(a) { return a.selected === a.correct; }).length;
+    var pct     = Math.round(score / total * 100);
+    var letters = ['A', 'B', 'C', 'D'];
+
+    // Message based on score
+    var msg, sub;
+    if (pct === 100)     { msg = '🎉 Perfect score!';         sub = 'Outstanding! You have mastered this day.'; }
+    else if (pct >= 80)  { msg = '✅ Great work!';            sub = 'You have a strong understanding of this day.'; }
+    else if (pct >= 60)  { msg = '📚 Good effort!';           sub = 'Review the explanations and try again.'; }
+    else                 { msg = '💪 Keep going!';             sub = 'Read through the explanations carefully before moving on.'; }
+
+    // Answer review
+    var reviewHTML = quizState.answers.map(function(a, i) {
+      var q         = quizState.questions[i];
+      var isCorrect = a.selected === a.correct;
+      var cls       = isCorrect ? 'correct-item' : 'wrong-item';
+      var icon      = isCorrect ? '<span class="tick">✓</span>' : '<span class="cross">✗</span>';
+      return '<div class="review-item ' + cls + '">' +
+        '<div class="review-q">' + icon + ' Q' + (i+1) + '. ' + q.q + '</div>' +
+        (isCorrect ? '' :
+          '<div class="review-your-answer" style="color:#f87171;">Your answer: ' + letters[a.selected] + ') ' + q.options[a.selected] + '</div>'
+        ) +
+        '<div class="review-correct-answer">Correct answer: ' + letters[a.correct] + ') ' + q.options[a.correct] + '</div>' +
+        '<div class="review-explanation-text">' + q.explanation + '</div>' +
+        '</div>';
+    }).join('');
+
+    document.getElementById('quiz-question-wrap').innerHTML = '';
+    document.getElementById('quiz-next-btn').classList.remove('show');
+    document.getElementById('quiz-progress-fill').style.width = '100%';
+    document.getElementById('quiz-progress-text').textContent = 'Completed!';
+
+    var resultsEl = document.getElementById('quiz-results');
+    resultsEl.innerHTML =
+      '<div class="score-circle">' +
+        '<span class="score-number">' + score + '</span>' +
+        '<span class="score-total">/ ' + total + '</span>' +
+      '</div>' +
+      '<div class="score-message">' + msg + '</div>' +
+      '<div class="score-sub">' + sub + '</div>' +
+      '<div class="answer-review">' +
+        '<h3>Answer Review</h3>' +
+        reviewHTML +
+      '</div>';
+
+    resultsEl.classList.add('show');
+    resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 
   // ── Phase Toggle ──────────────────────────────────────
   function togglePhase(i) {
