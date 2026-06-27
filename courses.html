@@ -132,10 +132,19 @@
         var desc  = c.description.length > 110 ? c.description.substring(0,110) + '…' : c.description;
         var badge = c.badge ? '<span class="c-badge">' + c.badge.toUpperCase() + '</span>' : '';
 
-        // Price display with urgency
+        // Price display
         var priceHTML = '';
+        var isFree = c.price.toLowerCase().includes('free');
         if (c.price === 'Coming Soon') {
           priceHTML = '<span style="font-size:13px; color:#a07080; font-style:italic;">Coming Soon</span>';
+        } else if (isFree) {
+          // Any price containing "free" → green
+          priceHTML = '<span class="c-price" style="color:#4ade80;">' + c.price + '</span>';
+          if (c.originalPrice && c.discountPercent) {
+            priceHTML +=
+              '<span style="font-size:11px; color:#a07080; text-decoration:line-through; margin-left:4px;">' + c.originalPrice + '</span>' +
+              '<span style="background:rgba(251,191,36,0.15); color:#fbbf24; border:1px solid rgba(251,191,36,0.3); padding:2px 7px; border-radius:100px; font-size:10px; font-weight:700; margin-left:4px;">' + c.discountPercent + '% OFF</span>';
+          }
         } else if (c.originalPrice && c.discountPercent) {
           var displayPrice = c.discountedPrice || c.paidPrice || c.price;
           priceHTML =

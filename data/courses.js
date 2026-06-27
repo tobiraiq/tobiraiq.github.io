@@ -39,9 +39,9 @@ const COURSES = [
     level: "Beginner",
     duration: "30 Days",
     price: "Coming Soon",
-    originalPrice: "₹1,999",
-    discountedPrice: "₹999",
-    discountPercent: 50,
+    originalPrice: null, //"₹399",
+    discountedPrice: null, //"₹149",
+    discountPercent: null, //63,
     discountDeadline: null,
     journeyTitle: "Your 30-Day Roadmap",
     badge: "new",
@@ -127,7 +127,7 @@ const COURSES = [
       },
       {
         q: "Is this course available now?",
-        a: "This course is coming soon. Subscribe to our free newsletter at tobiraiq.beehiiv.com to get notified the moment it launches."
+        a: "Yes — this course is available now at a special launch price of ₹149 (original price ₹399). Grab it at this price before it goes back to full price."
       },
       {
         q: "What tools do I need?",
@@ -153,11 +153,10 @@ const COURSES = [
     category: "data-engineering",
     level: "Intermediate → Advanced",
     duration: "120 Days",
-    price: "Phase 1 Free",
-    paidPrice: "₹999",
-    originalPrice: "₹1,999",
-    discountedPrice: "₹999",
-    discountPercent: 50,
+    price: "Coming Soon",
+    originalPrice: null,
+    discountedPrice: null,
+    discountPercent: null,
     discountDeadline: null,
     journeyTitle: "Your 120-Day Roadmap",
     badge: "new",
