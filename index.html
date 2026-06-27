@@ -594,10 +594,14 @@
           var desc = c.description.length > 100 ?
             c.description.substring(0, 100) + '…' : c.description;
 
-          // Price display with urgency
+          // Price display
           var priceHTML = '';
+          var isFree = c.price.toLowerCase().includes('free');
           if (c.price === 'Coming Soon') {
             priceHTML = '<span style="font-size:14px; color:var(--muted); font-style:italic;">Coming Soon</span>';
+          } else if (isFree) {
+            // Any price containing "free" → green
+            priceHTML = '<span style="font-family:var(--font-display); font-size:18px; font-weight:700; color:#4ade80;">' + c.price + '</span>';
           } else if (c.originalPrice && c.discountPercent) {
             var displayPrice = c.discountedPrice || c.paidPrice || c.price;
             priceHTML =

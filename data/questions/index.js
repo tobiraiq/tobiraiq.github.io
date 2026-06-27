@@ -19,7 +19,7 @@ window.QUIZ_INDEX = {
 
   "120-days-data-engineering": {
     totalDays:     120,
-    availableDays: [1, 2]
+    availableDays: []
     // Add day numbers here as you release content
     // Example when Day 4 is ready: [1, 2, 3, 4]
   },

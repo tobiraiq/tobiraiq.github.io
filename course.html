@@ -54,7 +54,7 @@
     .buy-price {
       font-family: var(--font-display);
       font-size: 48px; font-weight: 700;
-      color: var(--pink-glow); margin-bottom: 4px;
+      margin-bottom: 4px;
       display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
     }
     .buy-price-original {
@@ -540,6 +540,7 @@
 
     // ── Price display ─────────────────────────────────
     const isComingSoon = course.price === 'Coming Soon';
+    const isFree       = course.price.toLowerCase().includes('free');
     const priceClass   = '';
     const priceText    = course.price;
 
@@ -570,17 +571,25 @@
               ${course.originalPrice ? `<span class="buy-price-original">${course.originalPrice}</span>` : ''}
               ${course.discountPercent ? `<span class="buy-price-discount">${course.discountPercent}% OFF</span>` : ''}
             </div>
+          ` : isFree ? `
+            <div class="buy-price">
+              <span style="color:#4ade80;">${course.price}</span>
+            </div>
+          ` : isComingSoon ? `
+            <div class="buy-price">
+              <span style="color:var(--muted); font-size:28px; font-style:italic;">Coming Soon</span>
+            </div>
           ` : `
             <div class="buy-price">
-              <span>${isComingSoon ? 'Coming Soon' : (course.discountedPrice || course.price)}</span>
-              ${!isComingSoon && course.originalPrice ? `<span class="buy-price-original">${course.originalPrice}</span>` : ''}
-              ${!isComingSoon && course.discountPercent ? `<span class="buy-price-discount">${course.discountPercent}% OFF</span>` : ''}
+              <span style="color:var(--pink-glow);">${course.discountedPrice || course.price}</span>
+              ${course.originalPrice ? `<span class="buy-price-original">${course.originalPrice}</span>` : ''}
+              ${course.discountPercent ? `<span class="buy-price-discount">${course.discountPercent}% OFF</span>` : ''}
             </div>
           `}
           <div class="buy-price-note">${isComingSoon
             ? 'This course is launching soon. Join the newsletter to be notified.'
-            : course.price === 'Free'
-              ? 'This course is completely free. No payment required.'
+            : isFree
+              ? 'This course is free. No payment required.'
               : course.price === 'Phase 1 Free'
                 ? 'Phase 1 is free. Unlock all phases via Gumroad.'
                 : 'Full course access via Gumroad.'
