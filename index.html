@@ -46,7 +46,8 @@
     .hero h1 {
       font-family: var(--font-display);
       font-size: clamp(52px, 9vw, 108px);
-      font-weight: 700; line-height: 0.98;
+      line-height: 1.15;
+      font-weight: 700;
       letter-spacing: -2px;
       margin-bottom: 28px;
       animation: fadeUp 0.7s 0.1s ease both;
@@ -126,12 +127,27 @@
 
     /* ── Bestseller Carousel ───────────────────────────── */
     .carousel-wrapper { position: relative; margin-top: 28px; }
-    .carousel-track-outer { overflow: hidden; }
+    .carousel-track-outer {
+      overflow: hidden;
+      padding-top: 4px;   /* prevents card top border/shadow from clipping */
+      margin-top: -4px;
+    }
     .carousel-track {
       display: flex; gap: 20px;
       transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
       will-change: transform;
-      justify-content: center;
+    }
+    /* Card widths via CSS — reliable across all screen sizes */
+    .carousel-card {
+      flex: 0 0 calc(33.333% - 14px); /* desktop: 3 per view */
+    }
+    @media (max-width: 1023px) and (min-width: 640px) {
+      /* Tablet with 2 cards: center them */
+      .carousel-track { justify-content: center; }
+      .carousel-card  { flex: 0 0 calc(50% - 10px); }
+    }
+    @media (max-width: 639px) {
+      .carousel-card { flex: 0 0 calc(100%); } /* mobile: 1 card full width */
     }
     .carousel-card {
       background: var(--card); border: 1px solid var(--border);
@@ -354,7 +370,7 @@
       <div class="hero-inner">
         <div class="hero-badge">
           <span class="hero-badge-dot"></span>
-          India's Learning Gateway
+          Your Learning Gateway
         </div>
         <h1>
           Open the Door
@@ -362,7 +378,7 @@
         </h1>
         <p class="hero-sub">
           Premium courses, study resources and career guides for
-          data professionals and students across India — free to start.
+          data professionals and students worldwide — free to start.
         </p>
         <div class="hero-buttons">
           <a href="courses.html"            class="btn btn-primary btn-lg">Explore Courses</a>
@@ -566,12 +582,9 @@
         carouselState.total   = list.length;
         carouselState.current = 0;
 
-        // Card width — constrain max so single card doesn't stretch full width
-        var containerW = track.parentElement.offsetWidth;
-        var pv         = carouselState.perView;
-        var cardW      = list.length < pv
-          ? Math.min(360, containerW)   // single/few cards: max 360px, centered
-          : (containerW - (pv - 1) * 20) / pv;
+        // Card width is controlled by CSS (carousel-card class)
+        // No JS pixel calculation needed — CSS handles responsive widths
+        var pv = carouselState.perView;
 
         track.innerHTML = list.map(function(c) {
           var badge = c.badge === 'new' ?
@@ -596,7 +609,7 @@
           } else {
             priceHTML = '<span style="font-family:var(--font-display); font-size:18px; font-weight:700; color:var(--pink-glow);">' + c.price + '</span>';
           }
-          return '<a href="course.html?id=' + c.id + '" class="carousel-card" style="width:' + cardW + 'px; min-width:' + cardW + 'px;">' +
+          return '<a href="course.html?id=' + c.id + '" class="carousel-card">' +
             '<div class="c-card-top"><div>' + badge + '</div><div>' + priceHTML + '</div></div>' +
             '<div class="c-card-title">' + c.title + '</div>' +
             '<div class="c-card-desc">' + desc + '</div>' +
@@ -605,6 +618,14 @@
             '<div class="c-card-cta">View Course →</div>' +
           '</a>';
         }).join('');
+
+        // Center track when fewer cards than perView (e.g. 2 cards on desktop)
+        track.style.justifyContent = list.length < pv ? 'center' : 'flex-start';
+
+        // Hide dots and arrows if all cards fit in one view
+        var showNav = list.length > pv;
+        document.getElementById('carousel-dots').style.display    = showNav ? 'flex' : 'none';
+        document.querySelector('.carousel-arrows').style.display   = showNav ? 'flex' : 'none';
 
         // Build dots — one dot per page
         var pages = Math.ceil(list.length / pv);
@@ -623,10 +644,14 @@
         carouselState.current = Math.max(0, Math.min(pageIndex, pages - 1));
         carouselState.perView = pv;
 
-        var containerW = document.getElementById('carousel-track').parentElement.offsetWidth;
-        var cardW      = (containerW - (pv - 1) * 20) / pv;
-        var offset     = carouselState.current * (cardW * pv + 20 * pv);
-        document.getElementById('carousel-track').style.transform = 'translateX(-' + offset + 'px)';
+        // Use percentage offset based on card width (100% per card on mobile, 50% tablet, 33% desktop)
+        // Each page moves pv cards worth of width + gaps
+        var cardWidthPct = 100 / pv; // percentage of container each card takes
+        var gapPx        = 20;       // gap between cards in px
+        var offsetPct    = carouselState.current * pv * cardWidthPct;
+        var offsetGapPx  = carouselState.current * pv * gapPx;
+        document.getElementById('carousel-track').style.transform =
+          'translateX(calc(-' + offsetPct + '% - ' + offsetGapPx + 'px))';
 
         // Update dots
         var dots = document.querySelectorAll('.carousel-dot');
@@ -651,6 +676,26 @@
         var newPv = getPerView();
         if (newPv !== carouselState.perView) buildCarousel();
       });
+
+      // ── Touch/Swipe support ──────────────────────────
+      var touchStartX = 0;
+      var touchEndX   = 0;
+      var trackEl     = document.getElementById('carousel-track');
+
+      if (trackEl) {
+        trackEl.addEventListener('touchstart', function(e) {
+          touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        trackEl.addEventListener('touchend', function(e) {
+          touchEndX = e.changedTouches[0].screenX;
+          var diff = touchStartX - touchEndX;
+          if (Math.abs(diff) > 40) {       // minimum swipe distance
+            if (diff > 0) carouselNext();  // swipe left → next
+            else          carouselPrev();  // swipe right → prev
+          }
+        }, { passive: true });
+      }
 
       buildCarousel();
 
