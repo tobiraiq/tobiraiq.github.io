@@ -12,7 +12,7 @@
 // Do not add placeholder or coming soon entries here.
 //
 // journeyTitle GUIDE — set this for every course:
-//   "30 Days to Fresher"    → "Your 30-Day Roadmap"
+//   "60 Days to Fresher"    → "Your 60-Day Roadmap"
 //   "Web Designer Course"   → "Your Web Design Journey"
 //   "Become Advanced Coder" → "Your Coding Roadmap"
 //   "120 Days Data Eng."    → "Your 120-Day Roadmap"
@@ -30,77 +30,77 @@
 
 const COURSES = [
 
-  // ── 30 Day Fresher Course ─────────────────────────────
+  // ── 60 Day Fresher Course ─────────────────────────────
   {
-    id: "30-days-fresher-interview",
-    title: "30 Days to Fresher Interview Success",
+    id: "60-days-fresher-interview",
+    title: "60 Days to Fresher Interview Success",
     subtitle: "From Zero to Interview-Ready for Tech Companies",
     category: "careers",
     level: "Beginner",
-    duration: "30 Days",
+    duration: "60 Days",
     price: "Coming Soon",
-    originalPrice: null, //"₹399",
+    originalPrice: null, // "₹399",
     discountedPrice: null, //"₹149",
-    discountPercent: null, //63,
+    discountPercent: null, // 63,
     discountDeadline: null,
-    journeyTitle: "Your 30-Day Roadmap",
+    journeyTitle: "Your 60-Day Roadmap",
     badge: "new",
     featured: true,
     topSelling: true,
     salesCount: 0,
     thumbnail: null,
     availableDays: 0,
-    description: "A structured 30-day program designed for final-year students with zero technical background. 4 hours a day, split into two focused parts — covering Python, SQL, Git, project explanation and HR preparation. Everything you need to crack mass hiring tech assessments.",
+    description: "A structured 60-day program designed for final-year students with zero technical background. 2 focused hours a day, one topic at a time — covering Python, SQL, Git, project explanation and HR preparation. Everything you need to crack mass hiring tech assessments, at a pace that's easy to sustain every single day.",
 
     phases: [
       {
         number: 1,
         name: "Foundations",
-        days: "Days 1–7",
-        duration: "7 days · 28 hours total",
+        days: "Days 1–14",
+        duration: "14 days · 28 hours total",
         color: "#00C6A7",
-        overview: "Build your very first technical foundation from scratch. Week 1 introduces Python programming, SQL databases and Git version control — all starting from absolute zero. No prior experience needed. Every concept is explained simply with hands-on practice from Day 1.",
-        deliverable: "By Day 7 you will have Python installed and running, your first SQL queries working on a local database, and a Git repository set up on GitHub — all ready to build on.",
+        overview: "Build your very first technical foundation from scratch. Weeks 1–2 introduce Python programming, SQL databases and Git version control — all starting from absolute zero, one topic per day. No prior experience needed. Every concept is explained simply with hands-on practice from Day 1, followed by two full review days to lock it all in.",
+        deliverable: "By Day 14 you will have Python installed and running, your first SQL queries working on a local database, a Git repository set up on GitHub, and two review days behind you to reinforce everything — all ready to build on.",
         skills: ["Python Basics", "SQL SELECT", "Git Init", "Variables", "Data Types", "WHERE Clause"]
       },
       {
         number: 2,
         name: "Core Skills",
-        days: "Days 8–14",
-        duration: "7 days · 28 hours total",
+        days: "Days 15–28",
+        duration: "14 days · 28 hours total",
         color: "#4A9EFF",
-        overview: "Move from basics to building real capability. Week 2 covers SQL aggregate functions and joins, Python data structures and functions, and Git branching workflows. These are the exact skills tested in mass hiring assessments.",
-        deliverable: "By Day 14 you will be comfortable writing SQL JOIN queries, building Python functions with parameters, and managing code using Git branches — all assessed in Week 2 review.",
+        overview: "Move from basics to building real capability. Weeks 3–4 cover SQL aggregate functions and joins, Python data structures and functions, and Git branching workflows — one topic per day, followed by review days for SQL JOINs and Python functions. These are the exact skills tested in mass hiring assessments.",
+        deliverable: "By Day 28 you will be comfortable writing SQL JOIN queries, building Python functions with parameters, and managing code using Git branches — all reinforced across two dedicated review days.",
         skills: ["SQL JOINs", "GROUP BY", "Python Functions", "Lists & Dicts", "Git Branching", "HAVING Clause"]
       },
       {
         number: 3,
         name: "Interview-Level Concepts",
-        days: "Days 15–21",
-        duration: "7 days · 28 hours total",
+        days: "Days 29–42",
+        duration: "14 days · 28 hours total",
         color: "#9C7FFF",
-        overview: "Elevate your skills to interview level. Week 3 introduces exception handling, subqueries, window functions, file handling, OOP basics and pull requests on GitHub. These concepts separate shortlisted candidates from the rest.",
-        deliverable: "By Day 21 you will understand OOP fundamentals, write subqueries confidently, handle exceptions in Python, and have completed your first pull request on GitHub.",
+        overview: "Elevate your skills to interview level. Weeks 5–6 introduce exception handling, subqueries, window functions, file handling, OOP basics and pull requests on GitHub — one topic per day, followed by mixed SQL and Python OOP review days. These concepts separate shortlisted candidates from the rest.",
+        deliverable: "By Day 42 you will understand OOP fundamentals, write subqueries confidently, handle exceptions in Python, and have completed your first pull request on GitHub — all reinforced across two review days.",
         skills: ["OOP Basics", "Subqueries", "Window Functions", "Exception Handling", "Pull Requests", "CASE WHEN"]
       },
       {
         number: 4,
         name: "Interview Pattern Mastery",
-        days: "Days 22–25",
-        duration: "4 days · 16 hours total",
+        days: "Days 43–50",
+        duration: "8 days · 16 hours total",
         color: "#FF7043",
-        overview: "Tackle the exact question patterns that appear in mass hiring assessments. Days 22–24 solve the most commonly asked SQL, Python and Git interview questions with full explanations. Day 25 is a timed mock test simulating real assessment conditions.",
-        deliverable: "By Day 25 you will have solved 30+ interview questions across SQL, Python and Git, and completed one full timed mock test under real assessment conditions.",
+        overview: "Tackle the exact question patterns that appear in mass hiring assessments. Days 43–48 solve the most commonly asked SQL, Python and Git interview questions with full explanations, one topic per day. Days 49–50 are full timed mock tests simulating real assessment conditions — one for SQL, one for Python.",
+        deliverable: "By Day 50 you will have solved 30+ interview questions across SQL, Python and Git, and completed two full timed mock tests under real assessment conditions.",
         skills: ["SQL Interview Q&A", "Python Interview Q&A", "Git Interview Q&A", "Mock Test", "Time Management"]
       },
       {
         number: 5,
         name: "Project & HR Sprint",
-        days: "Days 26–30",
-        duration: "5 days · 20 hours total",
+        days: "Days 51–60",
+        duration: "10 days · 20 hours total",
         color: "#FFB300",
-        overview: "The final phase prepares you for the human side of interviews. Learn to explain your final year project confidently, craft your 60-second self-introduction, handle tricky HR questions and walk into interview day with a clear, calm strategy.",
-        deliverable: "By Day 30 you will have a polished project explanation, prepared answers for all common HR questions, completed a full mock interview round, and a mental game plan for interview day.",
+        overview: "The final phase prepares you for the human side of interviews. Learn to explain your final year project confidently, craft your 60-second self-introduction, handle tricky HR questions, research companies properly, and walk into interview day with a clear, calm strategy after a full mock interview.",
+        deliverable: "By Day 60 you will have a polished project explanation, prepared answers for all common HR questions, completed a full mock interview round, and a mental game plan for interview day.",
         skills: ["Project Explanation", "Tell Me About Yourself", "HR Questions", "Mock Interview", "Company Research"]
       }
     ],
@@ -123,7 +123,7 @@ const COURSES = [
       },
       {
         q: "How much time do I need every day?",
-        a: "4 hours per day — split into two 2-hour parts. Part 1 and Part 2 cover different topics each day so you never get fatigued by one subject."
+        a: "Just 2 hours a day, one topic at a time. Each day is fully self-contained, so you can keep a steady, sustainable pace without ever feeling overwhelmed."
       },
       {
         q: "Is this course available now?",
@@ -136,11 +136,15 @@ const COURSES = [
       {
         q: "Does this cover aptitude and logical reasoning?",
         a: "This course focuses on technical skills — Python, SQL and Git. Aptitude and logical reasoning will be covered in a separate dedicated module coming soon."
+      },
+      {
+        q: "Why did this change from 30 days to 60 days?",
+        a: "The content is exactly the same — nothing was removed. We simply split each day into two separate single-topic days instead of cramming two subjects into one session, so you can focus deeply on one thing at a time and retain it better."
       }
     ],
 
     gumroadLink: "https://tobiraiq.gumroad.com",
-    whatsappText: "Hi TobiraIQ! I am interested in the 30 Days Fresher Interview course. Can you share more details?",
+    whatsappText: "Hi TobiraIQ! I am interested in the 60 Days Fresher Interview course. Can you share more details?",
     reviews: [],
     createdAt: "2025-01-01"
   },
@@ -164,7 +168,7 @@ const COURSES = [
     topSelling: true,      // shows in homepage carousel
     salesCount: 0,         // update as sales grow — used for ordering
     thumbnail: null,
-    availableDays: 3,    // Only Day 1-3 PDF available currently — update this as more days are added
+    availableDays: 0,    // Only Day 1-3 PDF available currently — update this as more days are added
     description: "A structured 120-day challenge designed to take you from an intermediate data engineer to an industry-ready senior professional. Every single day has a clear task — no confusion, no overwhelm. Work at your own pace and build skills that make a real difference to your career. Currently Day 1–3 study material is available. New days are added every week.",
 
     // ── PHASE OVERVIEW (shown on course page) ──────────
