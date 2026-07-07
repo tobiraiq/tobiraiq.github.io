@@ -72,6 +72,7 @@
       <div class="filter-bar" id="filter-bar"></div>
     </div>
     <div class="courses-grid" id="courses-grid"></div>
+    <div id="bundle-section-courses" style="display:none; max-width:1200px; margin:0 auto; padding:0 24px 48px;"></div>
   </main>
 
   <footer id="footer"></footer>
@@ -166,6 +167,41 @@
           '</a>';
       }
       grid.innerHTML = html;
+
+      // ── Render Bundles on courses page ──────────────
+      if (typeof BUNDLES !== 'undefined') {
+        var activeBundles = BUNDLES.filter(function(b) { return b.active; });
+        var bSection = document.getElementById('bundle-section-courses');
+        if (activeBundles.length && bSection) {
+          bSection.style.display = 'block';
+          var bHtml = '<div style="text-align:center; margin-bottom:20px;"><span style="font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#a07080;">★ Best Taken Together</span></div>';
+          activeBundles.forEach(function(b) {
+            var pills = b.courseIds.map(function(cid) {
+              var c = COURSES.find(function(x) { return x.id === cid; });
+              return '<span style="background:rgba(255,255,255,0.06); border:1px solid rgba(131,24,67,0.25); border-radius:100px; padding:4px 14px; font-size:12px; color:#a07080;">' + (c ? c.title : cid) + '</span>';
+            }).join('');
+            var priceHtml = b.price === 'Coming Soon'
+              ? '<span style="color:#a07080; font-style:italic; font-size:16px;">Coming Soon</span>'
+              : '<span style="font-family:Georgia,serif; font-size:28px; font-weight:700; color:#F9A8D4;">' + b.price + '</span>' +
+                (b.savingsText ? '<div style="font-size:12px; color:#4ade80; font-weight:600;">' + b.savingsText + '</div>' : '');
+            var btnHtml = b.price === 'Coming Soon'
+              ? '<a href="https://tobiraiq.beehiiv.com" target="_blank" style="display:inline-block; margin-top:12px; padding:10px 20px; background:transparent; border:1px solid rgba(131,24,67,0.4); border-radius:8px; color:#F9A8D4; font-size:13px; text-decoration:none;">Notify Me 🔔</a>'
+              : '<a href="' + b.gumroadLink + '" target="_blank" style="display:inline-block; margin-top:12px; padding:10px 20px; background:#831843; border-radius:8px; color:#fff; font-size:13px; text-decoration:none;">Get Bundle 🛒</a>';
+            bHtml +=
+              '<div style="background:linear-gradient(135deg,rgba(131,24,67,0.18),rgba(74,158,255,0.08)); border:1px solid rgba(249,168,212,0.3); border-radius:16px; padding:28px 32px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; position:relative; overflow:hidden; margin-bottom:16px;">' +
+                '<div style="position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,#831843,#F9A8D4,#4A9EFF);"></div>' +
+                '<div>' +
+                  '<span style="background:rgba(251,191,36,0.12); border:1px solid rgba(251,191,36,0.3); border-radius:100px; padding:3px 10px; font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#fbbf24; display:inline-block; margin-bottom:10px;">★ Bundle</span>' +
+                  '<div style="font-family:Georgia,serif; font-size:22px; font-weight:700; margin-bottom:6px;">' + b.title + '</div>' +
+                  '<div style="color:#a07080; font-size:13px; max-width:480px; line-height:1.6; margin-bottom:12px;">' + b.tagline + '</div>' +
+                  '<div style="display:flex; gap:8px; flex-wrap:wrap;">' + pills + '</div>' +
+                '</div>' +
+                '<div style="text-align:right; flex-shrink:0;">' + priceHtml + btnHtml + '</div>' +
+              '</div>';
+          });
+          bSection.innerHTML = bHtml;
+        }
+      }
     }
   </script>
 </body>

@@ -1,0 +1,4 @@
+# TobiraIQ site .gitignore
+
+# TobiraIQ architecture file -- do not commit (contains internal system design)
+tobiraiq-architecture.html

@@ -125,7 +125,44 @@
       transform: translateY(-2px);
     }
 
-    /* ── Bestseller Carousel ───────────────────────────── */
+    /* ── Bundle Card ──────────────────────────────────── */
+    .bundle-card {
+      background: linear-gradient(135deg, rgba(131,24,67,0.18) 0%, rgba(74,158,255,0.08) 100%);
+      border: 1px solid rgba(249,168,212,0.3);
+      border-radius: var(--radius-md);
+      padding: 32px 36px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 28px; flex-wrap: wrap;
+      position: relative; overflow: hidden;
+      margin-top: 28px;
+    }
+    .bundle-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--pink), var(--pink-glow), #4A9EFF);
+    }
+    .bundle-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--yellow);
+      background: rgba(251,191,36,0.12); border: 1px solid rgba(251,191,36,0.3);
+      padding: 3px 10px; border-radius: 100px; margin-bottom: 10px;
+      display: inline-block;
+    }
+    .bundle-title { font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.2; margin-bottom: 8px; }
+    .bundle-tagline { color: var(--muted); font-size: 14px; line-height: 1.6; max-width: 500px; }
+    .bundle-courses { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+    .bundle-course-pill {
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+      border-radius: 100px; padding: 4px 14px;
+      font-size: 12px; color: var(--muted);
+    }
+    .bundle-right { text-align: right; flex-shrink: 0; }
+    .bundle-price { font-family: var(--font-display); font-size: 32px; font-weight: 700; color: var(--pink-glow); }
+    .bundle-original { font-size: 14px; color: var(--muted); text-decoration: line-through; margin-bottom: 4px; }
+    .bundle-savings { font-size: 12px; color: #4ade80; font-weight: 600; margin-bottom: 16px; }
+    @media (max-width: 640px) {
+      .bundle-card { flex-direction: column; padding: 24px; }
+      .bundle-right { text-align: left; width: 100%; }
+    }
     .carousel-wrapper { position: relative; margin-top: 28px; }
     .carousel-track-outer {
       overflow: hidden;
@@ -424,6 +461,16 @@
       </div>
     </section>
 
+    <!-- ── Best Together Bundle ──────────────────────── -->
+    <section class="section" style="padding-top:0; padding-bottom:48px;" id="bundle-section" style="display:none;">
+      <div class="section-inner">
+        <div style="text-align:center; margin-bottom:20px;">
+          <span class="section-eyebrow">Best Taken Together</span>
+        </div>
+        <div id="bundle-cards"></div>
+      </div>
+    </section>
+
     <div class="divider"></div>
 
     <!-- ── Free Resources ────────────────────────────── -->
@@ -682,26 +729,76 @@
       });
 
       // ── Touch/Swipe support ──────────────────────────
-      var touchStartX = 0;
-      var touchEndX   = 0;
-      var trackEl     = document.getElementById('carousel-track');
+      // Attach to the outer container so swipe works even on hidden overflow areas
+      var touchStartX  = 0;
+      var touchEndX    = 0;
+      var touchStartY  = 0;
+      var swipeOuter   = document.querySelector('.carousel-track-outer');
 
-      if (trackEl) {
-        trackEl.addEventListener('touchstart', function(e) {
-          touchStartX = e.changedTouches[0].screenX;
+      if (swipeOuter) {
+        swipeOuter.addEventListener('touchstart', function(e) {
+          touchStartX = e.changedTouches[0].clientX;
+          touchStartY = e.changedTouches[0].clientY;
         }, { passive: true });
 
-        trackEl.addEventListener('touchend', function(e) {
-          touchEndX = e.changedTouches[0].screenX;
-          var diff = touchStartX - touchEndX;
-          if (Math.abs(diff) > 40) {       // minimum swipe distance
-            if (diff > 0) carouselNext();  // swipe left → next
-            else          carouselPrev();  // swipe right → prev
+        swipeOuter.addEventListener('touchend', function(e) {
+          touchEndX = e.changedTouches[0].clientX;
+          var diffX = touchStartX - touchEndX;
+          var diffY = Math.abs(touchStartY - e.changedTouches[0].clientY);
+          // Only trigger if horizontal swipe dominates (avoids conflict with page scroll)
+          if (Math.abs(diffX) > 40 && Math.abs(diffX) > diffY) {
+            if (diffX > 0) carouselNext();  // swipe left  → next
+            else           carouselPrev();  // swipe right → prev
           }
         }, { passive: true });
       }
 
       buildCarousel();
+
+      // ── Render Bundles ──────────────────────────────
+      (function() {
+        if (typeof BUNDLES === 'undefined') return;
+        var activeBundles = BUNDLES.filter(function(b) { return b.active; });
+
+        var section   = document.getElementById('bundle-section');
+        var container = document.getElementById('bundle-cards');
+        if (!section || !container) return;
+
+        // Always hide first; show only if there are active bundles
+        section.style.display = 'none';
+        if (!activeBundles.length) return;
+        section.style.display = 'block';
+
+        container.innerHTML = activeBundles.map(function(b) {
+          var pills = b.courseIds.map(function(cid) {
+            var c = (typeof COURSES !== 'undefined') ? COURSES.find(function(x) { return x.id === cid; }) : null;
+            return '<span class="bundle-course-pill">' + (c ? c.title : cid) + '</span>';
+          }).join('');
+
+          var badgeHtml = '<span class="bundle-label">★ ' + (b.badge === 'bestseller' ? 'Bestseller Bundle' : b.badge === 'popular' ? 'Popular Bundle' : 'Bundle') + '</span>';
+
+          var priceHtml = b.price === 'Coming Soon'
+            ? '<div class="bundle-price" style="font-size:20px; color:var(--muted); font-style:italic; margin-bottom:8px;">Coming Soon</div>'
+            : '<div class="bundle-original">' + (b.originalPrice || '') + '</div>' +
+              '<div class="bundle-price">' + b.price + '</div>' +
+              (b.savingsText ? '<div class="bundle-savings">' + b.savingsText + '</div>' : '') +
+              (b.discountPercent ? '<span class="badge-bestseller" style="margin-bottom:12px; display:inline-block;">' + b.discountPercent + '% OFF</span><br>' : '');
+
+          var btnHtml = b.price === 'Coming Soon'
+            ? '<a href="https://tobiraiq.beehiiv.com" target="_blank" class="btn btn-outline" style="font-size:13px;">Notify Me When Live 🔔</a>'
+            : '<a href="' + b.gumroadLink + '" target="_blank" class="btn btn-primary" style="font-size:13px;">Get Bundle 🛒</a>';
+
+          return '<div class="bundle-card">' +
+            '<div>' +
+              badgeHtml +
+              '<div class="bundle-title">' + b.title + '</div>' +
+              '<div class="bundle-tagline">' + b.tagline + '</div>' +
+              '<div class="bundle-courses">' + pills + '</div>' +
+            '</div>' +
+            '<div class="bundle-right">' + priceHtml + btnHtml + '</div>' +
+          '</div>';
+        }).join('');
+      })();
 
       // ── Render Featured Resources ───────────────────
       const resEl = document.getElementById('featured-resources');
