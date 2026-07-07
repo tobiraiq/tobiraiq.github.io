@@ -1,0 +1,20 @@
+window.QUIZ_DAY_DATA = {
+  title: "Day 26 — Python String Methods",
+  questions: [
+    { q: "What does strip() do?", options: ["Splits a string on spaces","Removes leading and trailing whitespace","Converts to lowercase","Replaces spaces with underscores"], answer: 1, explanation: "strip() removes leading and trailing whitespace (spaces, tabs, newlines)." },
+    { q: "Why does replace() not modify the original string?", options: ["It's a bug","Strings are immutable — replace() returns a new string","replace() only works on lists","replace() modifies in place only when assigned"], answer: 1, explanation: "Python strings are immutable; every string method returns a new string, never modifying the original." },
+    { q: "What is the syntax for join() and why do beginners find it surprising?", options: ["list.join(separator)","separator.join(list) — the separator goes first, not the list","join(list, separator)","list.join()"], answer: 1, explanation: "The separator string calls join with the list inside: ' '.join(my_list) — reversed from expectations." },
+    { q: "What does find() return when the substring is not found?", options: ["None","False","0","-1"], answer: 3, explanation: "find() returns -1 when the substring is absent, not None or False." },
+    { q: "What is an f-string, and from which Python version?", options: ["A file string, Python 2.7","A formatted string literal with embedded expressions, Python 3.6+","A function string, Python 3.0","A filter string, Python 3.9+"], answer: 1, explanation: "f-strings (prefix f) allow embedding variables directly in strings, introduced in Python 3.6." },
+    { q: "What is method chaining?", options: ["Importing multiple modules","Calling multiple methods in sequence where each returns a new string","Looping over strings","Concatenating strings with +"], answer: 1, explanation: "Chaining: s.strip().lower().replace('a','@') — each method acts on the result of the previous one." },
+    { q: "What does this print?\ns = '  hello  '\nprint(s.strip().upper())", options: ["  HELLO  ","HELLO","hello","  hello  "], answer: 1, explanation: "strip() removes spaces giving 'hello', then upper() gives 'HELLO'." },
+    { q: "What does this print?\nprint('a,b,c'.split(','))", options: ["'a,b,c'","['a', 'b', 'c']","('a','b','c')","a b c"], answer: 1, explanation: "split(',') breaks on commas, returning a list." },
+    { q: "What does this print?\nprint('-'.join(['2026','01','15']))", options: ["['2026','01','15']","2026-01-15","2026 01 15","Error"], answer: 1, explanation: "join uses '-' as separator between list items." },
+    { q: "What does this print?\nname='asha'; print(f'Hello {name.title()}')", options: ["Hello asha","Hello Asha","Hello ASHA","Error"], answer: 1, explanation: "name.title() capitalises 'asha' to 'Asha' before embedding in the f-string." },
+    { q: "What does this print?\ns='Python Python'\nprint(s.count('Python'))", options: ["1","2","0","Error"], answer: 1, explanation: "count() returns how many times the substring appears — 'Python' appears twice." },
+    { q: "What does this print?\ns='Python'\nprint(s.replace('Python','SQL'))\nprint(s)", options: ["SQL then SQL","SQL then Python","Python then SQL","Error"], answer: 1, explanation: "replace() returns a new string without modifying the original s." },
+    { q: "Write code that takes ' Hello World ' and prints 'hello world'.", options: ["print(' Hello World ')","print(' Hello World '.strip().lower())","print(lower(strip(' Hello World ')))","print(' Hello World '.lower.strip())"], answer: 1, explanation: "strip() removes spaces then lower() converts case. Methods are called with () syntax." },
+    { q: "What does startswith() return?", options: ["The starting character","True or False","The index of the first char","The first word"], answer: 1, explanation: "startswith(x) returns True if the string begins with x, False otherwise." },
+    { q: "True or False: f-strings can contain expressions, not just variable names.", options: ["True","False"], answer: 0, explanation: "f-strings evaluate any Python expression inside {}: f'{2+2}' prints 4, f'{name.upper()}' works too." }
+  ]
+};
